@@ -8,6 +8,7 @@
 }
 * {
   font-family: 'Nunito', sans-serif;
+  // font-size: 16px;
 }
 
 body {
@@ -168,10 +169,9 @@ header {
             background-color: #f3f2f2;
           }
         }
-
-        li:first-child {
+        .active {
           color: #ffffff;
-          background-color: #282828;
+          background-color: #282828 !important;
         }
       }
     }
@@ -179,6 +179,7 @@ header {
     .sort {
       display: flex;
       align-items: center;
+      position: relative;
       font-size: 14px;
 
       img {
@@ -195,6 +196,37 @@ header {
         border-bottom: 1px dashed #fe5f1e;
         cursor: pointer;
       }
+
+      .sortList {
+        position: absolute;
+        right: 0;
+        top: 30px;
+
+        box-shadow: 0px 5px 15px 0px #00000017;
+        background-color: #ffffff;
+        border-radius: 10px;
+        // width: 132px;
+        // height: 136px;
+        // top: 261px;
+        // left: 1203px;
+
+        ul {
+          padding: 13px 0;
+          li {
+            padding: 10px 22px 11px 14px;
+            cursor: pointer;
+
+            &:hover {
+              background-color: #fe5f1e0d;
+            }
+          }
+          li:first-child {
+            background-color: #fe5f1e0d;
+            color: #fe5f1e;
+            font-weight: 700;
+          }
+        }
+      }
     }
   }
 }
@@ -202,148 +234,4 @@ header {
 .pizzas {
   display: flex;
   flex-wrap: wrap;
-}
-
-.card {
-  width: 280px;
-  margin-right: 26px;
-
-  text-align: center;
-
-  h2 {
-    margin: 11px 0 22px 0;
-    font-weight: 800;
-    font-size: 20px;
-    letter-spacing: 0.01em;
-  }
-
-  .options {
-    background-color: #f3f3f3;
-
-    padding: 7px 6px;
-    border-radius: 10px;
-
-    ul {
-      display: flex;
-      flex-wrap: wrap;
-
-      gap: 7px 6px;
-
-      font-size: 14px;
-      font-weight: 800;
-
-      li {
-        flex: 1;
-
-        background-color: #ffffff00;
-        border-radius: 5px;
-        padding: 10px 15px;
-
-        cursor: pointer;
-
-        &:hover {
-          background-color: #ffffff46;
-          box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.02);
-        }
-      }
-
-      li:nth-child(3n + 1) {
-        background-color: #ffffff;
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
-      }
-    }
-  }
-
-  .cardInfo {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    width: 100%;
-    margin-top: 17px;
-
-    span {
-      font-weight: 700;
-      font-size: 22px;
-    }
-
-    .button {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      padding: 10px 15px;
-      width: 132px;
-
-      border: 1px solid #fe5f1e;
-      background-color: #ffffff;
-      border-radius: 30px;
-
-      color: #eb5a1e;
-      font-weight: 700;
-      font-size: 16px;
-      transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-
-      img {
-        animation: animateFilterWhiteToOrange 0.2s ease-in-out forwards;
-      }
-
-      &:hover {
-        background-color: #fe5f1e;
-        color: #ffffff;
-        img {
-          animation: animateFilterOrangeToWhite 0.2s ease-in-out forwards;
-        }
-      }
-    }
-
-    .buttonAdded {
-      padding: 10px 12px;
-      width: 155px;
-
-      div {
-        height: 22px;
-        width: 22px;
-
-        background-color: #fe5f1e;
-        border-radius: 10px;
-
-        color: #ffffff;
-        font-weight: 700;
-        font-size: 16px;
-        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-      }
-
-      &:hover {
-        div {
-          background-color: #ffffff;
-          color: #fe5f1e;
-        }
-      }
-    }
-
-    @keyframes animateFilterOrangeToWhite {
-      0% {
-        filter: var(--basic-orange);
-      }
-      50% {
-        filter: var(--basic-white-orange);
-      }
-      100% {
-        filter: var(--basic-white);
-      }
-    }
-
-    @keyframes animateFilterWhiteToOrange {
-      0% {
-        filter: var(--basic-white);
-      }
-      50% {
-        filter: var(--basic-white-orange);
-      }
-      100% {
-        filter: var(--basic-orange);
-      }
-    }
-  }
 }
