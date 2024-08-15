@@ -1,3 +1,12 @@
+:root {
+  --basic-white: brightness(0) saturate(100%) invert(100%) sepia(50%) saturate(2%)
+    hue-rotate(128deg) brightness(106%) contrast(101%);
+  --basic-white-orange: brightness(0) saturate(100%) invert(61%) sepia(76%) saturate(319%)
+    hue-rotate(328deg) brightness(101%) contrast(101%);
+  --basic-orange: brightness(0) saturate(100%) invert(39%) sepia(91%) saturate(878%)
+    hue-rotate(344deg) brightness(93%) contrast(99%);
+}
+
 .pizzaBlock {
   width: 280px;
   margin-right: 26px;
@@ -54,6 +63,9 @@
         cursor: default;
       }
     }
+    ul:last-child {
+      margin-top: 5px;
+    }
   }
 
   .pizzaBlockInfo {
@@ -84,6 +96,8 @@
       color: #eb5a1e;
       font-weight: 700;
       font-size: 16px;
+
+      cursor: pointer;
       transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 
       img {
