@@ -39,10 +39,6 @@
     span {
       padding: 0 12px;
     }
-
-    img {
-      cursor: pointer;
-    }
   }
 
   .btnCircle {
@@ -53,14 +49,28 @@
     width: 32px;
     border-radius: 16px;
     cursor: pointer;
-    transition: background-color 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
+
+    svg {
+      path {
+        transition: all 0.15s ease-in-out;
+      }
+    }
+    &:active {
+      transform: translateY(1px);
+    }
   }
 
   .btnCount {
     border: 2px solid #fe5f1e;
 
     &:hover {
-      background-color: #ffede6;
+      background-color: #fe5f1e;
+      svg {
+        path {
+          fill: #ffffff;
+        }
+      }
     }
   }
 
@@ -68,7 +78,14 @@
     border: 2px solid #d7d7d7;
 
     &:hover {
-      background-color: #f3f2f2;
+      border: 2px solid #282828;
+      background-color: #282828;
+
+      svg {
+        path {
+          fill: #ffffff;
+        }
+      }
     }
   }
 }

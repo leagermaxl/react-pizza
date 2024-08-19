@@ -1,0 +1,36 @@
+.categories {
+  display: flex;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  flex-direction: row;
+
+  ul {
+    display: flex;
+
+    li {
+      border-radius: 30px;
+      padding: 14px 30px 17px 30px;
+      margin-right: 10px;
+
+      color: #2c2c2c;
+      background-color: #f9f9f9;
+      cursor: pointer;
+      transition: background-color 0.15s ease-in-out;
+
+      &:hover {
+        background-color: #f3f2f2;
+      }
+    }
+    .active {
+      color: #ffffff;
+      background-color: #282828 !important;
+    }
+  }
+
+  @media (max-width: 1280px) {
+    max-width: calc(100vw - 230px);
+    overflow: auto;
+    margin-right: 20px;
+  }
+}

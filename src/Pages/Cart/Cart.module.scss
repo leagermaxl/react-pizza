@@ -1,6 +1,10 @@
 :root {
   --basic-gray: brightness(0) saturate(100%) invert(22%) sepia(10%) saturate(8%) hue-rotate(38deg)
     brightness(93%) contrast(86%);
+  --light-gray: brightness(0) saturate(100%) invert(86%) sepia(4%) saturate(7%) hue-rotate(326deg)
+    brightness(88%) contrast(82%);
+  --dark-gray: brightness(0) saturate(100%) invert(35%) sepia(0%) saturate(2046%) hue-rotate(147deg)
+    brightness(114%) contrast(81%);
 }
 .cart {
   margin: 95px auto;
@@ -12,7 +16,7 @@
     justify-content: space-between;
     h1 {
       margin: 0;
-      img {
+      svg {
         position: relative;
         top: 2px;
         height: 29px;
@@ -20,15 +24,34 @@
 
         margin-right: 17px;
 
-        filter: var(--basic-gray);
+        path {
+          stroke: #3f3f3f;
+        }
+
+        // filter: var(--basic-gray);
       }
     }
     span {
       display: flex;
       cursor: pointer;
 
-      img {
+      color: #b6b6b6;
+      transition: all 0.15s ease-in-out;
+
+      svg {
         margin-right: 7px;
+        path {
+          transition: all 0.15s ease-in-out;
+        }
+      }
+
+      &:hover {
+        color: #232323;
+        svg {
+          path {
+            stroke: #232323;
+          }
+        }
       }
     }
   }
@@ -63,23 +86,42 @@
       font-size: 16px;
 
       cursor: pointer;
+
+      transition: all 0.15s ease-in-out;
+
+      &:active {
+        transform: translateY(1px);
+      }
     }
 
     .btnBack {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
       background-color: #ffffff;
       color: #cacaca;
 
       border: 1px solid #d3d3d3;
 
-      transition: background-color 0.1s ease-in-out;
-
-      img {
+      svg {
         position: relative;
         right: 13px;
+        path {
+          transition: all 0.15s ease-in-out;
+        }
       }
 
       &:hover {
-        background-color: #f3f2f2;
+        color: #ffffff;
+        border: 1px solid #232323;
+        background-color: #282828;
+
+        svg {
+          path {
+            stroke: #ffffff;
+          }
+        }
       }
     }
 
@@ -90,11 +132,28 @@
       border: 1px solid #fe5f1e;
 
       font-weight: 700;
-      transition: background-color 0.2s ease-in-out;
 
       &:hover {
         background-color: #f24701;
       }
     }
+  }
+}
+
+@keyframes animateFilterGray {
+  0% {
+    filter: var(--light-gray);
+  }
+  100% {
+    filter: var(--dark-gray);
+  }
+}
+
+@keyframes animateFilterGrayReverse {
+  0% {
+    filter: var(--dark-gray);
+  }
+  100% {
+    filter: var(--light-gray);
   }
 }
