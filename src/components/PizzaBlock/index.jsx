@@ -20,7 +20,7 @@ function PizzaBlock({ title, price, imageUrl, sizes, types }) {
                 <li
                   key={typeId}
                   onClick={() => setActiveType(typeId)}
-                  className={`${activeType === typeId && style.active}`}
+                  className={`${activeType === typeId ? style.active : ''}`}
                 >
                   {typeNames[typeId]}
                 </li>
@@ -32,7 +32,7 @@ function PizzaBlock({ title, price, imageUrl, sizes, types }) {
               <li
                 key={index}
                 onClick={() => setActiveSize(index)}
-                className={activeSize === index && style.active}
+                className={activeSize === index ? style.active : ''}
               >
                 {size} см.
               </li>
@@ -41,7 +41,7 @@ function PizzaBlock({ title, price, imageUrl, sizes, types }) {
         </div>
         <div className={style.pizzaBlockInfo}>
           <span>от {price} ₽</span>
-          <button className={`${style.button} ${false && style.buttonAdded}`}>
+          <button className={`${style.button} ${false ? style.buttonAdded : ''}`}>
             <svg
               width="12"
               height="12"

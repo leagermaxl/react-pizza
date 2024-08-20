@@ -7,25 +7,23 @@ import Home from './Pages/Home';
 import Cart from './Pages/Cart';
 import NotFound from './Pages/NotFound';
 
-export const AppContext = React.createContext();
+// export const AppContext = React.createContext();
 
 function App() {
-  const [searchValue, setSearchValue] = React.useState('');
+  // const [searchValue, setSearchValue] = React.useState('');
   // console.log(searchValue);
 
   return (
-    <AppContext.Provider value={{ searchValue, setSearchValue }}>
-      <div className="wrapper">
-        <Header />
-        <div className="content">
-          <Routes>
-            <Route path="react-pizza/" element={<Home />} />
-            <Route path="react-pizza/cart" element={<Cart />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
+    <div className="wrapper">
+      <Header />
+      <div className="content">
+        <Routes>
+          <Route path="react-pizza/" element={<Home />} />
+          <Route path="react-pizza/cart" element={<Cart />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </div>
-    </AppContext.Provider>
+    </div>
   );
 }
 

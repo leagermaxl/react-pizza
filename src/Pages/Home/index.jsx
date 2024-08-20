@@ -1,28 +1,37 @@
 import React from 'react';
 import axios from 'axios';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { setCategoryId, setSort } from '../../redux/slices/filterSlice';
+
 import Categories from '../../components/Categories';
 import PizzaBlock from '../../components/PizzaBlock';
 import Sort from '../../components/Sort';
 import Skeleton from '../../components/Skeleton';
 import Pagination from '../../components/Pagination';
-import { AppContext } from '../../App';
+// import { AppContext } from '../../App';
 
 import styles from './Home.module.scss';
 
 function Home() {
+  const dispatch = useDispatch();
+
+  const categoryId = useSelector((state) => state.filterSlice.categoryId);
+  const sortObject = useSelector((state) => state.filterSlice.sortObject);
+  const searchValue = useSelector((state) => state.filterSlice.searchValue);
+
   const [itemsPizzas, setItemsPizzas] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [categoryId, setCategoryId] = React.useState(0);
-  const [sortObj, setSortObj] = React.useState({ name: 'популярности', sortProperty: 'rating' });
+  // const [categoryId, setCategoryId] = React.useState(0);
+  // const [sortObj, setSortObj] = React.useState({ name: 'популярности', sortProperty: 'rating' });
   const [sortOrder, setSortOrder] = React.useState(true);
   const [dataPagination, setDataPagination] = React.useState({});
   const [currentPage, setCurrentPage] = React.useState(1);
 
-  const { searchValue } = React.useContext(AppContext);
+  // const { searchValue } = React.useContext(AppContext);
 
   const category = `&category=${categoryId === 0 ? '*' : categoryId}`;
-  const sort = `&sortBy=${sortOrder ? '' : '-'}${sortObj.sortProperty}`;
+  const sort = `&sortBy=${sortOrder ? '' : '-'}${sortObject.sortProperty}`;
   const search = `${searchValue === '' ? '' : `&title=*${searchValue}*`}`;
   const page = `&page=${currentPage}&limit=5`;
 
@@ -33,7 +42,7 @@ function Home() {
         const { data } = await axios.get(
           `https://683883f38da35f95.mokky.dev/items?${page}${category}${sort}${search}`
         );
-        console.log(data);
+        // console.log(data);
         setItemsPizzas(data.items);
         setDataPagination(data.meta);
       } catch (error) {
@@ -46,17 +55,19 @@ function Home() {
 
   const skeleton = [...new Array(8)].map((_, index) => <Skeleton key={index} />);
 
-  const pizzas = itemsPizzas
-    // .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
-    .map((item) => <PizzaBlock key={item.id} {...item} />);
+  const pizzas = itemsPizzas.map((item) => <PizzaBlock key={item.id} {...item} />);
+
+  // const onClickCategory = (id) => {
+  //   dispatch(setCategoryId(id));
+  // };
 
   return (
     <>
       <div className={styles.contentTop}>
-        <Categories categoryId={categoryId} onClickCategory={(id) => setCategoryId(id)} />
+        <Categories categoryId={categoryId} onClickCategory={(id) => dispatch(setCategoryId(id))} />
         <Sort
-          sortObj={sortObj}
-          onClickSortType={(type) => setSortObj(type)}
+          sortObj={sortObject}
+          onClickSortType={(type) => dispatch(setSort(type))}
           sortOrder={sortOrder}
           onClickSortOrder={(order) => setSortOrder(order)}
         />

@@ -1,11 +1,16 @@
 import React from 'react';
 
-import { AppContext } from '../../App.jsx';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSearchValue } from '../../redux/slices/filterSlice.js';
+
+// import { AppContext } from '../../App.jsx';
 
 import styles from './Search.module.scss';
 
 function Search() {
-  const { searchValue, setSearchValue } = React.useContext(AppContext);
+  // const { searchValue, setSearchValue } = React.useContext(AppContext);
+  const dispatch = useDispatch();
+  const searchValue = useSelector((state) => state.filterSlice.searchValue);
 
   return (
     <div className={styles.root}>
@@ -22,14 +27,14 @@ function Search() {
       </svg>
       <input
         value={searchValue}
-        onChange={(event) => setSearchValue(event.target.value)}
+        onChange={(event) => dispatch(setSearchValue(event.target.value))}
         className={styles.search}
         placeholder="Поиск пиццы..."
       />
       <svg
         className={styles.close}
-        onClick={() => setSearchValue('')}
-        enable-background="new 0 0 512 512"
+        onClick={() => dispatch(setSearchValue(''))}
+        enableBackground="new 0 0 512 512"
         height="512px"
         id="Layer_1"
         version="1.0"
