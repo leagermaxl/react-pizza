@@ -10,9 +10,10 @@ function Pagination({ dataPagination, setNewPage }) {
       breakLabel="..."
       nextLabel=">"
       onPageChange={(event) => setNewPage(event.selected + 1)}
-      pageRangeDisplayed={dataPagination.per_pages}
+      pageRangeDisplayed={dataPagination.per_page}
       pageCount={dataPagination.total_pages}
       previousLabel="<"
+      forcePage={dataPagination.current_page - 1}
       renderOnZeroPageCount={null}
     />
   );

@@ -1,83 +1,138 @@
 import React from 'react';
 import axios from 'axios';
+import qs from 'qs';
+import { useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategoryId, setSort } from '../../redux/slices/filterSlice';
+import {
+  setCategoryId,
+  setSortObj,
+  setSortOrder,
+  setDataPagination,
+  setFilters,
+} from '../../redux/slices/filterSlice';
 
 import Categories from '../../components/Categories';
 import PizzaBlock from '../../components/PizzaBlock';
 import Sort from '../../components/Sort';
 import Skeleton from '../../components/Skeleton';
 import Pagination from '../../components/Pagination';
-// import { AppContext } from '../../App';
+
+import { sortList } from '../../components/Sort';
 
 import styles from './Home.module.scss';
 
 function Home() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const categoryId = useSelector((state) => state.filterSlice.categoryId);
-  const sortObject = useSelector((state) => state.filterSlice.sortObject);
-  const searchValue = useSelector((state) => state.filterSlice.searchValue);
+  const { categoryId, sortObj, sortOrder, searchValue, dataPagination } = useSelector(
+    (state) => state.filterSlice
+  );
 
   const [itemsPizzas, setItemsPizzas] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
-  // const [categoryId, setCategoryId] = React.useState(0);
-  // const [sortObj, setSortObj] = React.useState({ name: 'популярности', sortProperty: 'rating' });
-  const [sortOrder, setSortOrder] = React.useState(true);
-  const [dataPagination, setDataPagination] = React.useState({});
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const isParam = React.useRef(false);
+  const isFirstRender = React.useRef(true);
 
-  // const { searchValue } = React.useContext(AppContext);
-
-  const category = `&category=${categoryId === 0 ? '*' : categoryId}`;
-  const sort = `&sortBy=${sortOrder ? '' : '-'}${sortObject.sortProperty}`;
+  const category = `${categoryId > 0 ? `&category=${categoryId}` : ''}`;
+  const sort = `&sortBy=${sortOrder ? '' : '-'}${sortObj.sortProperty}`;
   const search = `${searchValue === '' ? '' : `&title=*${searchValue}*`}`;
-  const page = `&page=${currentPage}&limit=5`;
+  const page = `&page=${dataPagination.current_page}&limit=5`;
 
   React.useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      try {
-        const { data } = await axios.get(
-          `https://683883f38da35f95.mokky.dev/items?${page}${category}${sort}${search}`
-        );
-        // console.log(data);
-        setItemsPizzas(data.items);
-        setDataPagination(data.meta);
-      } catch (error) {
-        console.error(error);
-        alert('Не удалось загрузить пиццы!');
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+      let sortOrderItem = true;
+      if (params.sort[0] === '-') {
+        sortOrderItem = false;
+        params.sort = params.sort.substring(1);
       }
-      setIsLoading(false);
-    })();
-  }, [category, sort, search, page]);
+      const sortObjItem = sortList.find((item) => item.sortProperty === params.sort);
+      dispatch(setFilters({ ...params, sort: sortObjItem, sortOrderItem }));
 
-  const skeleton = [...new Array(8)].map((_, index) => <Skeleton key={index} />);
+      isParam.current = true;
+    }
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    console.log('3N');
+    if (!isParam.current) {
+      console.log('3F');
+      (async () => {
+        setIsLoading(true);
+        try {
+          const { data } = await axios.get(
+            `https://683883f38da35f95.mokky.dev/items?${category}${sort}${page}${search}`
+          );
+          setItemsPizzas(data.items);
+          dispatch(setDataPagination(data.meta));
+        } catch (error) {
+          console.error(error);
+          alert('Не удалось загрузить пиццы!');
+        }
+        setIsLoading(false);
+      })();
+    }
+    isParam.current = false;
+    // isFirstRender.current = true;
+  }, [category, sort, search, page, dispatch]);
+
+  React.useEffect(() => {
+    console.log('2N');
+    if (!isFirstRender.current) {
+      let queryString = '';
+      const categoryQS = categoryId;
+      const sortQS = `${sortOrder ? '' : '-'}${sortObj.sortProperty}`;
+      const pageQS = dataPagination.current_page;
+
+      if (categoryQS !== 0 || sortQS !== 'rating' || pageQS !== 1) {
+        queryString = qs.stringify({
+          category: categoryQS,
+          sort: sortQS,
+          page: pageQS,
+        });
+      }
+
+      navigate(`?${queryString}`);
+    }
+    isFirstRender.current = false;
+  }, [categoryId, sortObj, sortOrder, dataPagination, navigate]);
+
+  const skeleton = [...new Array(5)].map((_, index) => <Skeleton key={index} />);
 
   const pizzas = itemsPizzas.map((item) => <PizzaBlock key={item.id} {...item} />);
 
-  // const onClickCategory = (id) => {
-  //   dispatch(setCategoryId(id));
-  // };
+  const onChangeCategory = (id) => {
+    dispatch(setCategoryId(id));
+  };
+
+  const onChangeSortObj = (sortObject) => {
+    dispatch(setSortObj(sortObject));
+  };
+
+  const onChangePage = (newPage) => {
+    dispatch(setDataPagination({ ...dataPagination, current_page: newPage }));
+  };
+
+  const onChangeSortOrder = (order) => {
+    dispatch(setSortOrder(order));
+  };
 
   return (
     <>
       <div className={styles.contentTop}>
-        <Categories categoryId={categoryId} onClickCategory={(id) => dispatch(setCategoryId(id))} />
+        <Categories categoryId={categoryId} onClickCategory={onChangeCategory} />
         <Sort
-          sortObj={sortObject}
-          onClickSortType={(type) => dispatch(setSort(type))}
+          sortObj={sortObj}
+          onClickSortObj={onChangeSortObj}
           sortOrder={sortOrder}
-          onClickSortOrder={(order) => setSortOrder(order)}
+          onClickSortOrder={onChangeSortOrder}
         />
       </div>
       <h1>Все пиццы</h1>
       <div className={styles.pizzas}>{isLoading ? skeleton : pizzas}</div>
-      <Pagination
-        dataPagination={dataPagination}
-        setNewPage={(newPage) => setCurrentPage(newPage)}
-      />
+      <Pagination dataPagination={dataPagination} setNewPage={onChangePage} />
     </>
   );
 }

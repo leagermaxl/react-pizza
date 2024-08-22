@@ -2,16 +2,17 @@ import React from 'react';
 
 import style from './Sort.module.scss';
 
-function Sort({ sortObj, onClickSortType, sortOrder, onClickSortOrder }) {
+export const sortList = [
+  { name: 'популярности', sortProperty: 'rating' },
+  { name: 'цене', sortProperty: 'price' },
+  { name: 'алфавиту', sortProperty: 'title' },
+];
+
+function Sort({ sortObj, onClickSortObj, sortOrder, onClickSortOrder }) {
   const [opened, setOpened] = React.useState(false);
 
-  const sortList = [
-    { name: 'популярности', sortProperty: 'rating' },
-    { name: 'цене', sortProperty: 'price' },
-    { name: 'алфавиту', sortProperty: 'title' },
-  ];
   const clickOnSort = (obj) => {
-    onClickSortType(obj);
+    onClickSortObj(obj);
     setOpened(false);
   };
 
@@ -42,8 +43,9 @@ function Sort({ sortObj, onClickSortType, sortOrder, onClickSortOrder }) {
           <ul>
             {sortList.map((obj, index) => (
               <li
+                key={index}
                 onClick={() => clickOnSort(obj)}
-                className={`${sortObj === index ? style.active : ''}`}
+                className={`${obj.sortProperty === sortObj.sortProperty ? style.active : ''}`}
               >
                 {obj.name}
               </li>
@@ -54,5 +56,4 @@ function Sort({ sortObj, onClickSortType, sortOrder, onClickSortOrder }) {
     </div>
   );
 }
-
 export default Sort;
