@@ -1,0 +1,159 @@
+:root {
+  --basic-gray: brightness(0) saturate(100%) invert(22%) sepia(10%) saturate(8%) hue-rotate(38deg)
+    brightness(93%) contrast(86%);
+  --light-gray: brightness(0) saturate(100%) invert(86%) sepia(4%) saturate(7%) hue-rotate(326deg)
+    brightness(88%) contrast(82%);
+  --dark-gray: brightness(0) saturate(100%) invert(35%) sepia(0%) saturate(2046%) hue-rotate(147deg)
+    brightness(114%) contrast(81%);
+}
+.cart {
+  margin: 95px auto;
+  max-width: 820px;
+
+  .cartTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    h1 {
+      margin: 0;
+      svg {
+        position: relative;
+        top: 2px;
+        height: 29px;
+        width: 29px;
+
+        margin-right: 17px;
+
+        path {
+          stroke: #3f3f3f;
+        }
+
+        // filter: var(--basic-gray);
+      }
+    }
+    span {
+      display: flex;
+      cursor: pointer;
+
+      color: #b6b6b6;
+      transition: all 0.15s ease-in-out;
+
+      svg {
+        margin-right: 7px;
+        path {
+          transition: all 0.15s ease-in-out;
+        }
+      }
+
+      &:hover {
+        color: #232323;
+        svg {
+          path {
+            stroke: #232323;
+          }
+        }
+      }
+    }
+  }
+
+  .cartInfo {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 40px;
+
+    font-size: 22px;
+    p {
+      margin: 0;
+
+      span {
+        font-weight: 700;
+      }
+    }
+  }
+
+  .cartBottom {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 40px;
+
+    button {
+      width: 211px;
+      padding: 18px 0;
+
+      border-radius: 30px;
+      font-size: 16px;
+
+      cursor: pointer;
+
+      transition: all 0.15s ease-in-out;
+
+      &:active {
+        transform: translateY(1px);
+      }
+    }
+
+    .btnBack {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background-color: #ffffff;
+      color: #cacaca;
+
+      border: 1px solid #d3d3d3;
+
+      svg {
+        position: relative;
+        right: 13px;
+        path {
+          transition: all 0.15s ease-in-out;
+        }
+      }
+
+      &:hover {
+        color: #ffffff;
+        border: 1px solid #232323;
+        background-color: #282828;
+
+        svg {
+          path {
+            stroke: #ffffff;
+          }
+        }
+      }
+    }
+
+    .btnPay {
+      background-color: #fe5f1e;
+      color: #ffffff;
+
+      border: 1px solid #fe5f1e;
+
+      font-weight: 700;
+
+      &:hover {
+        background-color: #f24701;
+      }
+    }
+  }
+}
+
+@keyframes animateFilterGray {
+  0% {
+    filter: var(--light-gray);
+  }
+  100% {
+    filter: var(--dark-gray);
+  }
+}
+
+@keyframes animateFilterGrayReverse {
+  0% {
+    filter: var(--dark-gray);
+  }
+  100% {
+    filter: var(--light-gray);
+  }
+}

@@ -1,0 +1,91 @@
+.cartItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 30px;
+  margin-top: 30px;
+  border-top: 1px solid #f4f4f4;
+
+  font-size: 22px;
+  font-weight: 700;
+
+  .cartItemLeft {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .cartItemLeftInfo {
+      margin-left: 15px;
+      h2,
+      p {
+        margin: 0;
+      }
+      h2 {
+        font-size: 22px;
+        margin-bottom: 3px;
+      }
+      p {
+        font-size: 14px;
+        font-weight: 400;
+        color: #8d8d8d;
+      }
+    }
+  }
+
+  .cartItemCount {
+    display: flex;
+    align-items: center;
+
+    span {
+      padding: 0 12px;
+    }
+  }
+
+  .btnCircle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    width: 32px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+
+    svg {
+      path {
+        transition: all 0.15s ease-in-out;
+      }
+    }
+    &:active {
+      transform: translateY(1px);
+    }
+  }
+
+  .btnCount {
+    border: 2px solid #fe5f1e;
+
+    &:hover {
+      background-color: #fe5f1e;
+      svg {
+        path {
+          fill: #ffffff;
+        }
+      }
+    }
+  }
+
+  .btnRemove {
+    border: 2px solid #d7d7d7;
+
+    &:hover {
+      border: 2px solid #282828;
+      background-color: #282828;
+
+      svg {
+        path {
+          fill: #ffffff;
+        }
+      }
+    }
+  }
+}

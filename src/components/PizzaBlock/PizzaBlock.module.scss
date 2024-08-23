@@ -1,0 +1,148 @@
+.pizzaBlockWrapper {
+  display: flex;
+  justify-content: center;
+
+  .pizzaBlock {
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+    // justify-content: center;
+
+    width: 280px;
+
+    text-align: center;
+
+    img {
+      padding: 10px 0 0 10px;
+    }
+
+    h2 {
+      margin: 11px 0 22px 0;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: 0.01em;
+    }
+
+    .options {
+      background-color: #f3f3f3;
+
+      padding: 7px 6px;
+      border-radius: 10px;
+
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+
+        gap: 7px 6px;
+
+        font-size: 14px;
+        font-weight: 800;
+        text-wrap: nowrap;
+
+        li {
+          flex: 1;
+
+          background-color: #ffffff00;
+          border-radius: 5px;
+          padding: 10px 15px;
+
+          cursor: pointer;
+
+          &:hover {
+            background-color: #ffffff46;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.02);
+          }
+        }
+
+        .active {
+          background-color: #ffffff !important;
+          box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04) !important;
+        }
+        .disabled {
+          background-color: #ffffff00 !important;
+          color: #2c2c2c2f;
+          box-shadow: none !important;
+          cursor: default;
+        }
+      }
+      ul:last-child {
+        margin-top: 5px;
+      }
+    }
+
+    .pizzaBlockInfo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      width: 100%;
+      margin-top: 17px;
+
+      span {
+        font-weight: 700;
+        font-size: 22px;
+      }
+
+      .button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 10px 15px;
+        width: 132px;
+
+        border: 1px solid #fe5f1e;
+        background-color: #ffffff;
+        border-radius: 30px;
+
+        color: #eb5a1e;
+        font-weight: 700;
+        font-size: 16px;
+
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+
+        svg {
+          path {
+            transition: all 0.2s ease-in-out;
+          }
+        }
+
+        &:hover {
+          background-color: #fe5f1e;
+          color: #ffffff;
+          svg {
+            path {
+              fill: #ffffff;
+            }
+          }
+        }
+      }
+
+      .buttonAdded {
+        padding: 10px 12px;
+        width: 155px;
+
+        div {
+          height: 22px;
+          width: 22px;
+
+          background-color: #fe5f1e;
+          border-radius: 10px;
+
+          color: #ffffff;
+          font-weight: 700;
+          font-size: 16px;
+          transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+
+        &:hover {
+          div {
+            background-color: #ffffff;
+            color: #fe5f1e;
+          }
+        }
+      }
+    }
+  }
+}
