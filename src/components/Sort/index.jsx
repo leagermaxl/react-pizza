@@ -11,13 +11,27 @@ export const sortList = [
 function Sort({ sortObj, onClickSortObj, sortOrder, onClickSortOrder }) {
   const [opened, setOpened] = React.useState(false);
 
+  const sortRef = new React.useRef();
+
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.composedPath().includes(sortRef.current)) {
+        setOpened(false);
+      }
+    };
+    document.body.addEventListener('click', handleClickOutside);
+    return () => {
+      document.body.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   const clickOnSort = (obj) => {
     onClickSortObj(obj);
     setOpened(false);
   };
 
   return (
-    <div className={style.sort}>
+    <div ref={sortRef} className={style.sort}>
       <div className={style.sortBlock}>
         <span>
           <svg
