@@ -123,12 +123,13 @@
         padding: 10px 12px;
         width: 155px;
 
-        div {
-          height: 22px;
-          width: 22px;
+        span {
+          height: 25px;
+          width: 25px;
+          line-height: 25px;
 
           background-color: #fe5f1e;
-          border-radius: 10px;
+          border-radius: 13px;
 
           color: #ffffff;
           font-weight: 700;
@@ -137,7 +138,7 @@
         }
 
         &:hover {
-          div {
+          span {
             background-color: #ffffff;
             color: #fe5f1e;
           }

@@ -34,7 +34,6 @@ header {
     display: flex;
     align-items: center;
 
-    width: 150px;
     border-radius: 30px;
     padding: 15px 23px;
     box-sizing: border-box;
@@ -62,6 +61,10 @@ header {
 
       width: 100%;
 
+      .spanPrice {
+        padding-right: 10px;
+      }
+
       .stick {
         border-right: 1px solid white;
         height: 25px;
@@ -70,6 +73,7 @@ header {
       .cartBlock {
         display: flex;
         align-items: center;
+        padding-left: 10px;
       }
     }
     &:hover {

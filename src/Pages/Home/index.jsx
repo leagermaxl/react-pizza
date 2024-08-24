@@ -56,9 +56,7 @@ function Home() {
   }, [dispatch]);
 
   React.useEffect(() => {
-    console.log('3N');
     if (!isParam.current) {
-      console.log('3F');
       (async () => {
         setIsLoading(true);
         try {
@@ -79,7 +77,6 @@ function Home() {
   }, [category, sort, search, page, dispatch]);
 
   React.useEffect(() => {
-    console.log('2N');
     if (!isFirstRender.current) {
       let queryString = '';
       const categoryQS = categoryId;
@@ -99,10 +96,6 @@ function Home() {
     isFirstRender.current = false;
   }, [categoryId, sortObj, sortOrder, dataPagination, navigate]);
 
-  const skeleton = [...new Array(5)].map((_, index) => <Skeleton key={index} />);
-
-  const pizzas = itemsPizzas.map((item) => <PizzaBlock key={item.id} {...item} />);
-
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
   };
@@ -118,6 +111,10 @@ function Home() {
   const onChangeSortOrder = (order) => {
     dispatch(setSortOrder(order));
   };
+
+  const skeleton = [...new Array(5)].map((_, index) => <Skeleton key={index} />);
+
+  const pizzas = itemsPizzas.map((item) => <PizzaBlock key={item.id} {...item} />);
 
   return (
     <>

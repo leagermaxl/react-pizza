@@ -1,18 +1,38 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { addItems, minusItem, removeItems } from '../../redux/slices/cartSlice';
+
 import style from './CartItem.module.scss';
 
-function CartItem() {
+function CartItem({ id, title, price, imageUrl, type, size, count }) {
+  const dispatch = useDispatch();
+
+  const onClickPlus = () => {
+    const itemObject = { id, title, price, imageUrl, type, size, count };
+    dispatch(addItems(itemObject));
+  };
+
+  const onClickMinus = () => {
+    dispatch(minusItem(id));
+  };
+
+  const onClickRemoveItems = () => {
+    dispatch(removeItems(id));
+  };
+
   return (
     <div className={style.cartItem}>
       <div className={style.cartItemLeft}>
-        <img width={80} height={80} src="img/pizzas/1.png" alt="" />
+        <img width={80} height={80} src={imageUrl} alt="" />
         <div className={style.cartItemLeftInfo}>
-          <h2>Сырный цыпленок</h2>
-          <p>тонкое тесто, 26 см.</p>
+          <h2>{title}</h2>
+          <p>
+            {type} тесто, {size} см.
+          </p>
         </div>
       </div>
       <div className={style.cartItemCount}>
-        <div className={`${style.btnCircle} ${style.btnCount}`}>
+        <div onClick={onClickMinus} className={`${style.btnCircle} ${style.btnCount}`}>
           <svg
             width="10"
             height="2"
@@ -27,8 +47,8 @@ function CartItem() {
           </svg>
           {/* <img src="img/minus.svg" alt="Count minus" /> */}
         </div>
-        <span>2</span>
-        <div className={`${style.btnCircle} ${style.btnCount}`}>
+        <span>{count}</span>
+        <div onClick={onClickPlus} className={`${style.btnCircle} ${style.btnCount}`}>
           <svg
             width="10"
             height="10"
@@ -44,8 +64,8 @@ function CartItem() {
           {/* <img src="img/plus.svg" alt="Count plus" /> */}
         </div>
       </div>
-      <span>770 ₽</span>
-      <div className={`${style.btnCircle} ${style.btnRemove}`}>
+      <span>{price * count} ₽</span>
+      <div onClick={onClickRemoveItems} className={`${style.btnCircle} ${style.btnRemove}`}>
         <svg
           width="10"
           height="9"
