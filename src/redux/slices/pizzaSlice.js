@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  items: [],
+  itemsPizzas: [],
   status: 'loading', // loading, panning, error
 };
 
@@ -9,11 +9,11 @@ const pizzaSlice = createSlice({
   name: 'pizza',
   initialState,
   reducers: {
-    addItems(state, action) {
-      state.items = action.payload;
+    addItemsPizzas(state, action) {
+      state.itemsPizzas = action.payload;
     },
   },
 });
 
-export const { addItems } = pizzaSlice.actions;
+export const { addItemsPizzas } = pizzaSlice.actions;
 export default pizzaSlice.reducer;

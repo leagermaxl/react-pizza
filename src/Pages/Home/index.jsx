@@ -12,6 +12,8 @@ import {
   setFilters,
 } from '../../redux/slices/filterSlice';
 
+import { addItemsPizzas } from '../../redux/slices/pizzaSlice';
+
 import Categories from '../../components/Categories';
 import PizzaBlock from '../../components/PizzaBlock';
 import Sort from '../../components/Sort';
@@ -30,7 +32,9 @@ function Home() {
     (state) => state.filterSlice
   );
 
-  const [itemsPizzas, setItemsPizzas] = React.useState([]);
+  const { itemsPizzas } = useSelector((state) => state.pizzaSlice);
+
+  // const [itemsPizzas, setItemsPizzas] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const isParam = React.useRef(false);
   const isFirstRender = React.useRef(true);
@@ -55,22 +59,24 @@ function Home() {
     }
   }, [dispatch]);
 
+  const fetchPizza = async () => {
+    setIsLoading(true);
+    try {
+      const { data } = await axios.get(
+        `https://683883f38da35f95.mokky.dev/items?${category}${sort}${page}${search}`
+      );
+      dispatch(addItemsPizzas(data.items));
+      dispatch(setDataPagination(data.meta));
+    } catch (error) {
+      console.error(error);
+      alert('Не удалось загрузить пиццы!');
+    }
+    setIsLoading(false);
+  };
+
   React.useEffect(() => {
     if (!isParam.current) {
-      (async () => {
-        setIsLoading(true);
-        try {
-          const { data } = await axios.get(
-            `https://683883f38da35f95.mokky.dev/items?${category}${sort}${page}${search}`
-          );
-          setItemsPizzas(data.items);
-          dispatch(setDataPagination(data.meta));
-        } catch (error) {
-          console.error(error);
-          alert('Не удалось загрузить пиццы!');
-        }
-        setIsLoading(false);
-      })();
+      fetchPizza();
     }
     isParam.current = false;
     // isFirstRender.current = true;
@@ -114,6 +120,7 @@ function Home() {
 
   const skeleton = [...new Array(5)].map((_, index) => <Skeleton key={index} />);
 
+  // console.log(itemsPizzas);
   const pizzas = itemsPizzas.map((item) => <PizzaBlock key={item.id} {...item} />);
 
   return (
