@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addItems } from '../../redux/slices/cartSlice';
 
-import style from './PizzaBlock.module.scss';
+import styles from './PizzaBlock.module.scss';
 
 function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
   const [activeType, setActiveType] = React.useState(types[0]);
@@ -29,11 +29,11 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
   };
 
   return (
-    <div className={style.pizzaBlockWrapper}>
-      <div className={style.pizzaBlock}>
+    <div className={styles.pizzaBlockWrapper}>
+      <div className={styles.pizzaBlock}>
         <img width={260} height={260} src={imageUrl} alt="Pizza" />
         <h2>{title}</h2>
-        <div className={style.options}>
+        <div className={styles.options}>
           <ul>
             {typeArray.map((typeName, index) => {
               const typeIncludes = types.includes(index);
@@ -41,8 +41,8 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
                 <li
                   key={index}
                   onClick={typeIncludes ? () => setActiveType(index) : () => {}}
-                  className={`${activeType === index ? style.active : ''} ${
-                    typeIncludes ? '' : style.disabled
+                  className={`${activeType === index ? styles.active : ''} ${
+                    typeIncludes ? '' : styles.disabled
                   }`}
                 >
                   {typeName}
@@ -57,8 +57,8 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
                 <li
                   key={size}
                   onClick={sizeIncludes ? () => setActiveSize(size) : () => {}}
-                  className={`${activeSize === size ? style.active : ''} ${
-                    sizeIncludes ? '' : style.disabled
+                  className={`${activeSize === size ? styles.active : ''} ${
+                    sizeIncludes ? '' : styles.disabled
                   }`}
                 >
                   {size} см.
@@ -67,11 +67,11 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
             })}
           </ul>
         </div>
-        <div className={style.pizzaBlockInfo}>
+        <div className={styles.pizzaBlockInfo}>
           <span>от {price} ₽</span>
           <button
             onClick={addToCart}
-            className={`${style.button} ${countItem ? style.buttonAdded : ''}`}
+            className={`${styles.button} ${countItem ? styles.buttonAdded : ''}`}
           >
             <svg
               width="12"

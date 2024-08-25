@@ -1,6 +1,6 @@
 import React from 'react';
 
-import style from './Sort.module.scss';
+import styles from './Sort.module.scss';
 
 export const sortList = [
   { name: 'популярности', sortProperty: 'rating' },
@@ -31,12 +31,12 @@ function Sort({ sortObj, onClickSortObj, sortOrder, onClickSortOrder }) {
   };
 
   return (
-    <div ref={sortRef} className={style.sort}>
-      <div className={style.sortBlock}>
+    <div ref={sortRef} className={styles.sort}>
+      <div className={styles.sortBlock}>
         <span>
           <svg
             onClick={() => onClickSortOrder(!sortOrder)}
-            className={`${sortOrder ? '' : style.sortSvg}`}
+            className={`${sortOrder ? '' : styles.sortSvg}`}
             width="10"
             height="6"
             viewBox="0 0 10 6"
@@ -53,13 +53,13 @@ function Sort({ sortObj, onClickSortObj, sortOrder, onClickSortOrder }) {
         <span onClick={() => setOpened(!opened)}>{sortObj.name}</span>
       </div>
       {opened && (
-        <div className={style.sortPopup}>
+        <div className={styles.sortPopup}>
           <ul>
             {sortList.map((obj, index) => (
               <li
                 key={index}
                 onClick={() => clickOnSort(obj)}
-                className={`${obj.sortProperty === sortObj.sortProperty ? style.active : ''}`}
+                className={`${obj.sortProperty === sortObj.sortProperty ? styles.active : ''}`}
               >
                 {obj.name}
               </li>

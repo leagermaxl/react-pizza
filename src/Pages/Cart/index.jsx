@@ -6,7 +6,7 @@ import RemovePopup from '../../components/RemovePopup';
 
 import CartItem from '../../components/CartItem';
 
-import style from './Cart.module.scss';
+import styles from './Cart.module.scss';
 
 export default function Cart() {
   const [openedPopup, setOpenedPopup] = React.useState(false);
@@ -21,7 +21,7 @@ export default function Cart() {
   };
 
   return (
-    <div className={style.cart}>
+    <div className={styles.cart}>
       {openedPopup && (
         <RemovePopup
           title={'Действительно хотите очистить корзину?'}
@@ -29,7 +29,7 @@ export default function Cart() {
           deny={() => setOpenedPopup(false)}
         />
       )}
-      <div className={style.cartTop}>
+      <div className={styles.cartTop}>
         <h1>
           {/* <img src="img/cart.svg" alt="Cart" /> */}
           <svg
@@ -107,7 +107,7 @@ export default function Cart() {
       {items.map((item) => (
         <CartItem {...item} />
       ))}
-      <div className={style.cartInfo}>
+      <div className={styles.cartInfo}>
         <p>
           Всего пицц: <span>{countItems} шт.</span>
         </p>
@@ -115,9 +115,9 @@ export default function Cart() {
           Сумма заказа: <span style={{ color: '#fe5f1e' }}>{totalPrice} ₽</span>
         </p>
       </div>
-      <div className={style.cartBottom}>
+      <div className={styles.cartBottom}>
         <Link to={'/react-pizza/'}>
-          <button className={style.btnBack}>
+          <button className={styles.btnBack}>
             <svg
               width="8"
               height="14"
@@ -137,7 +137,7 @@ export default function Cart() {
             Вернуться назад
           </button>
         </Link>
-        <button className={style.btnPay}>Оплатить сейчас</button>
+        <button className={styles.btnPay}>Оплатить сейчас</button>
       </div>
     </div>
   );

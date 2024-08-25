@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import Search from '../Search';
 
-import style from './Header.module.scss';
+import styles from './Header.module.scss';
 
 function Header() {
   const { totalPrice, items } = useSelector((state) => state.cartSlice);
@@ -12,9 +12,9 @@ function Header() {
   return (
     <header>
       <Link to={'react-pizza/'}>
-        <div className={style.headerLeft}>
+        <div className={styles.headerLeft}>
           <img src="img/logo.png" alt="Logo" />
-          <div className={style.headerLeftInfo}>
+          <div className={styles.headerLeftInfo}>
             <h2>REACT PIZZA</h2>
             <p>самая вкусная пицца во вселенной</p>
           </div>
@@ -22,11 +22,11 @@ function Header() {
       </Link>
       <Search />
       <Link to={'react-pizza/cart'}>
-        <div className={style.headerRight}>
-          <div className={style.headerRightInfo}>
-            <span className={style.spanPrice}>{totalPrice} ₽</span>
-            <div className={style.stick}></div>
-            <div className={style.cartBlock}>
+        <div className={styles.headerRight}>
+          <div className={styles.headerRightInfo}>
+            <span className={styles.spanPrice}>{totalPrice} ₽</span>
+            <div className={styles.stick}></div>
+            <div className={styles.cartBlock}>
               <svg
                 width="18"
                 height="18"
