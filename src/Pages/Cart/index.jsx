@@ -2,22 +2,33 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearCart } from '../../redux/slices/cartSlice';
+import RemovePopup from '../../components/RemovePopup';
 
 import CartItem from '../../components/CartItem';
 
 import style from './Cart.module.scss';
 
 export default function Cart() {
+  const [openedPopup, setOpenedPopup] = React.useState(false);
+
   const dispatch = useDispatch();
   const { items, totalPrice } = useSelector((state) => state.cartSlice);
   const countItems = items.reduce((sum, item) => sum + item.count, 0);
 
   const onClickClearCart = () => {
     dispatch(clearCart());
+    setOpenedPopup(false);
   };
 
   return (
     <div className={style.cart}>
+      {openedPopup && (
+        <RemovePopup
+          title={'Действительно хотите очистить корзину?'}
+          confirm={onClickClearCart}
+          deny={() => setOpenedPopup(false)}
+        />
+      )}
       <div className={style.cartTop}>
         <h1>
           {/* <img src="img/cart.svg" alt="Cart" /> */}
@@ -52,7 +63,8 @@ export default function Cart() {
           </svg>
           Корзина
         </h1>
-        <span onClick={onClickClearCart}>
+
+        <span onClick={() => setOpenedPopup(true)}>
           <svg
             width="20"
             height="20"

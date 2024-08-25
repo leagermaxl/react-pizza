@@ -2,9 +2,13 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addItems, minusItem, removeItems } from '../../redux/slices/cartSlice';
 
-import style from './CartItem.module.scss';
+import RemovePopup from '../RemovePopup';
+
+import styles from './CartItem.module.scss';
 
 function CartItem({ id, title, price, imageUrl, type, size, count }) {
+  const [openedPopup, setOpenedPopup] = React.useState(false);
+
   const dispatch = useDispatch();
 
   const onClickPlus = () => {
@@ -18,21 +22,22 @@ function CartItem({ id, title, price, imageUrl, type, size, count }) {
 
   const onClickRemoveItems = () => {
     dispatch(removeItems(id));
+    setOpenedPopup(false);
   };
 
   return (
-    <div className={style.cartItem}>
-      <div className={style.cartItemLeft}>
+    <div className={styles.cartItem}>
+      <div className={styles.cartItemLeft}>
         <img width={80} height={80} src={imageUrl} alt="" />
-        <div className={style.cartItemLeftInfo}>
+        <div className={styles.cartItemLeftInfo}>
           <h2>{title}</h2>
           <p>
             {type} тесто, {size} см.
           </p>
         </div>
       </div>
-      <div className={style.cartItemCount}>
-        <div onClick={onClickMinus} className={`${style.btnCircle} ${style.btnCount}`}>
+      <div className={styles.cartItemCount}>
+        <div onClick={onClickMinus} className={`${styles.btnCircle} ${styles.btnCount}`}>
           <svg
             width="10"
             height="2"
@@ -48,7 +53,7 @@ function CartItem({ id, title, price, imageUrl, type, size, count }) {
           {/* <img src="img/minus.svg" alt="Count minus" /> */}
         </div>
         <span>{count}</span>
-        <div onClick={onClickPlus} className={`${style.btnCircle} ${style.btnCount}`}>
+        <div onClick={onClickPlus} className={`${styles.btnCircle} ${styles.btnCount}`}>
           <svg
             width="10"
             height="10"
@@ -65,7 +70,10 @@ function CartItem({ id, title, price, imageUrl, type, size, count }) {
         </div>
       </div>
       <span>{price * count} ₽</span>
-      <div onClick={onClickRemoveItems} className={`${style.btnCircle} ${style.btnRemove}`}>
+      <div
+        onClick={() => setOpenedPopup(true)}
+        className={`${styles.btnCircle} ${styles.btnRemove}`}
+      >
         <svg
           width="10"
           height="9"
@@ -80,6 +88,13 @@ function CartItem({ id, title, price, imageUrl, type, size, count }) {
         </svg>
         {/* <img height={11} width={11} src="img/crest.svg" alt="Cart remove" /> */}
       </div>
+      {openedPopup && (
+        <RemovePopup
+          title={'Действительно хотите удалить пиццу из корзины?'}
+          confirm={onClickRemoveItems}
+          deny={() => setOpenedPopup(false)}
+        />
+      )}
     </div>
   );
 }
