@@ -1,47 +1,78 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addItems } from '../../redux/slices/cartSlice';
 
-import style from './PizzaBlock.module.scss';
+import styles from './PizzaBlock.module.scss';
 
-function PizzaBlock({ title, price, imageUrl, sizes, types }) {
-  const [activeType, setActiveType] = React.useState(0);
-  const [activeSize, setActiveSize] = React.useState(0);
+function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
+  const [activeType, setActiveType] = React.useState(types[0]);
+  const [activeSize, setActiveSize] = React.useState(sizes[0]);
 
-  const typeNames = ['тонкое', 'традиционное'];
+  const typeArray = ['тонкое', 'традиционное'];
+  const sizeArray = [26, 30, 40];
+
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cartSlice.items);
+
+  const countItem = cartItems.find((item) => item.id === id);
+
+  const addToCart = () => {
+    const itemObject = {
+      id,
+      title,
+      price,
+      imageUrl,
+      size: activeSize,
+      type: typeArray[activeType],
+    };
+    dispatch(addItems(itemObject));
+  };
 
   return (
-    <div className={style.pizzaBlockWrapper}>
-      <div className={style.pizzaBlock}>
+    <div className={styles.pizzaBlockWrapper}>
+      <div className={styles.pizzaBlock}>
         <img width={260} height={260} src={imageUrl} alt="Pizza" />
         <h2>{title}</h2>
-        <div className={style.options}>
+        <div className={styles.options}>
           <ul>
-            {types.map((typeId) => {
+            {typeArray.map((typeName, index) => {
+              const typeIncludes = types.includes(index);
               return (
                 <li
-                  key={typeId}
-                  onClick={() => setActiveType(typeId)}
-                  className={`${activeType === typeId ? style.active : ''}`}
+                  key={index}
+                  onClick={typeIncludes ? () => setActiveType(index) : () => {}}
+                  className={`${activeType === index ? styles.active : ''} ${
+                    typeIncludes ? '' : styles.disabled
+                  }`}
                 >
-                  {typeNames[typeId]}
+                  {typeName}
                 </li>
               );
             })}
           </ul>
           <ul>
-            {sizes.map((size, index) => (
-              <li
-                key={index}
-                onClick={() => setActiveSize(index)}
-                className={activeSize === index ? style.active : ''}
-              >
-                {size} см.
-              </li>
-            ))}
+            {sizeArray.map((size) => {
+              const sizeIncludes = sizes.includes(size);
+              return (
+                <li
+                  key={size}
+                  onClick={sizeIncludes ? () => setActiveSize(size) : () => {}}
+                  className={`${activeSize === size ? styles.active : ''} ${
+                    sizeIncludes ? '' : styles.disabled
+                  }`}
+                >
+                  {size} см.
+                </li>
+              );
+            })}
           </ul>
         </div>
-        <div className={style.pizzaBlockInfo}>
+        <div className={styles.pizzaBlockInfo}>
           <span>от {price} ₽</span>
-          <button className={`${style.button} ${false ? style.buttonAdded : ''}`}>
+          <button
+            onClick={addToCart}
+            className={`${styles.button} ${countItem ? styles.buttonAdded : ''}`}
+          >
             <svg
               width="12"
               height="12"
@@ -56,7 +87,7 @@ function PizzaBlock({ title, price, imageUrl, sizes, types }) {
             </svg>
             {/* <img width={12} height={12} src="img/card-plus.svg" alt="Plus" /> */}
             Добавить
-            {false && <div>2</div>}
+            {countItem && <span>{countItem.count}</span>}
           </button>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,9 +7,15 @@ import {
   setCategoryId,
   setSortObj,
   setSortOrder,
-  setDataPagination,
   setFilters,
 } from '../../redux/slices/filterSlice';
+
+import {
+  addItemsPizzas,
+  fetchData,
+  setDataPagination,
+  setCurrentPage,
+} from '../../redux/slices/pizzaSlice';
 
 import Categories from '../../components/Categories';
 import PizzaBlock from '../../components/PizzaBlock';
@@ -21,17 +26,16 @@ import Pagination from '../../components/Pagination';
 import { sortList } from '../../components/Sort';
 
 import styles from './Home.module.scss';
+import PizzasDataError from '../../components/PizzasDataError';
 
 function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { categoryId, sortObj, sortOrder, searchValue, dataPagination } = useSelector(
-    (state) => state.filterSlice
-  );
+  const { categoryId, sortObj, sortOrder, searchValue } = useSelector((state) => state.filterSlice);
 
-  const [itemsPizzas, setItemsPizzas] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const { itemsPizzas, dataPagination, status } = useSelector((state) => state.pizzaSlice);
+
   const isParam = React.useRef(false);
   const isFirstRender = React.useRef(true);
 
@@ -48,38 +52,24 @@ function Home() {
         sortOrderItem = false;
         params.sort = params.sort.substring(1);
       }
+
       const sortObjItem = sortList.find((item) => item.sortProperty === params.sort);
       dispatch(setFilters({ ...params, sort: sortObjItem, sortOrderItem }));
+      dispatch(setCurrentPage(params.page));
 
       isParam.current = true;
     }
   }, [dispatch]);
 
   React.useEffect(() => {
-    console.log('3N');
     if (!isParam.current) {
-      console.log('3F');
-      (async () => {
-        setIsLoading(true);
-        try {
-          const { data } = await axios.get(
-            `https://683883f38da35f95.mokky.dev/items?${category}${sort}${page}${search}`
-          );
-          setItemsPizzas(data.items);
-          dispatch(setDataPagination(data.meta));
-        } catch (error) {
-          console.error(error);
-          alert('Не удалось загрузить пиццы!');
-        }
-        setIsLoading(false);
-      })();
+      dispatch(fetchData({ category, sort, page, search }));
     }
     isParam.current = false;
     // isFirstRender.current = true;
   }, [category, sort, search, page, dispatch]);
 
   React.useEffect(() => {
-    console.log('2N');
     if (!isFirstRender.current) {
       let queryString = '';
       const categoryQS = categoryId;
@@ -99,10 +89,6 @@ function Home() {
     isFirstRender.current = false;
   }, [categoryId, sortObj, sortOrder, dataPagination, navigate]);
 
-  const skeleton = [...new Array(5)].map((_, index) => <Skeleton key={index} />);
-
-  const pizzas = itemsPizzas.map((item) => <PizzaBlock key={item.id} {...item} />);
-
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
   };
@@ -119,6 +105,10 @@ function Home() {
     dispatch(setSortOrder(order));
   };
 
+  const skeleton = [...new Array(5)].map((_, index) => <Skeleton key={index} />);
+
+  const pizzas = itemsPizzas.map((item) => <PizzaBlock key={item.id} {...item} />);
+
   return (
     <>
       <div className={styles.contentTop}>
@@ -130,9 +120,15 @@ function Home() {
           onClickSortOrder={onChangeSortOrder}
         />
       </div>
-      <h1>Все пиццы</h1>
-      <div className={styles.pizzas}>{isLoading ? skeleton : pizzas}</div>
-      <Pagination dataPagination={dataPagination} setNewPage={onChangePage} />
+      {status === 'error' ? (
+        <PizzasDataError />
+      ) : (
+        <>
+          <h1>Все пиццы</h1>
+          <div className={styles.pizzas}>{status === 'loading' ? skeleton : pizzas}</div>
+          <Pagination dataPagination={dataPagination} setNewPage={onChangePage} />
+        </>
+      )}
     </>
   );
 }

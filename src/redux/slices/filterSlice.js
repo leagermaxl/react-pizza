@@ -5,7 +5,6 @@ const initialState = {
   sortObj: { name: 'популярности', sortProperty: 'rating' },
   sortOrder: true,
   searchValue: '',
-  dataPagination: { current_page: 1, per_page: 5, total_pages: 2 },
 };
 
 const filterSlice = createSlice({
@@ -21,33 +20,18 @@ const filterSlice = createSlice({
     setSearchValue(state, action) {
       state.searchValue = action.payload;
     },
-    setDataPagination(state, action) {
-      state.dataPagination = action.payload;
-    },
     setSortOrder(state, action) {
       state.sortOrder = action.payload;
     },
     setFilters(state, action) {
-      // console.log('obj', action.payload);
       state.categoryId = Number(action.payload.category);
 
       state.sortObj = action.payload.sort;
       state.sortOrder = action.payload.sortOrderItem;
-
-      state.dataPagination = {
-        ...state.dataPagination,
-        current_page: Number(action.payload.page),
-      };
     },
   },
 });
 
-export const {
-  setCategoryId,
-  setSortObj,
-  setSortOrder,
-  setSearchValue,
-  setDataPagination,
-  setFilters,
-} = filterSlice.actions;
+export const { setCategoryId, setSortObj, setSortOrder, setSearchValue, setFilters } =
+  filterSlice.actions;
 export default filterSlice.reducer;
