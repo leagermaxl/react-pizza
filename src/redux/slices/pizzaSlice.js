@@ -1,18 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { setDataPagination } from './filterSlice';
 import axios from 'axios';
 
-export const fetchData = createAsyncThunk('pizza/fetchData', async (props) => {
+export const fetchPizzas = createAsyncThunk('pizza/fetchPizzas', async (props, thunkAPI) => {
   const { category, sort, page, search } = props;
   const { data } = await axios.get(
     `https://683883f38da35f95.mokky.dev/items?${category}${sort}${page}${search}`
   );
-  console.log(data);
-  return data;
+  thunkAPI.dispatch(setDataPagination(data.meta));
+  return data.items;
 });
 
 const initialState = {
   itemsPizzas: [],
-  dataPagination: { current_page: 1, per_page: 5, total_pages: 2 },
   status: 'loading', // loading, success, error
 };
 
@@ -23,34 +23,23 @@ const pizzaSlice = createSlice({
     addItemsPizzas(state, action) {
       state.itemsPizzas = action.payload;
     },
-    setDataPagination(state, action) {
-      state.dataPagination = action.payload;
-    },
-    setCurrentPage(state, action) {
-      state.dataPagination = {
-        ...state.dataPagination,
-        current_page: Number(action.payload),
-      };
-    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchData.pending, (state) => {
+      .addCase(fetchPizzas.pending, (state) => {
         state.itemsPizzas = [];
         state.status = 'loading';
       })
-      .addCase(fetchData.fulfilled, (state, action) => {
-        state.itemsPizzas = action.payload.items;
-        state.dataPagination = action.payload.meta;
-        console.log(action.payload);
+      .addCase(fetchPizzas.fulfilled, (state, action) => {
+        state.itemsPizzas = action.payload;
         state.status = 'success';
       })
-      .addCase(fetchData.rejected, (state) => {
+      .addCase(fetchPizzas.rejected, (state) => {
         state.itemsPizzas = [];
         state.status = 'error';
       });
   },
 });
 
-export const { addItemsPizzas, setDataPagination, setCurrentPage } = pizzaSlice.actions;
+export const { addItemsPizzas } = pizzaSlice.actions;
 export default pizzaSlice.reducer;
