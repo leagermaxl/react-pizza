@@ -7,34 +7,28 @@ import {
   setCategoryId,
   setSortObj,
   setSortOrder,
-  setFilters,
-} from '../../redux/slices/filterSlice';
-
-import {
-  addItemsPizzas,
-  fetchData,
   setDataPagination,
-  setCurrentPage,
-} from '../../redux/slices/pizzaSlice';
+  setFilters,
+  selectFilter,
+} from '../../redux/slices/filterSlice';
+import { fetchDataPizzas, selectPizzas } from '../../redux/slices/pizzaSlice';
 
 import Categories from '../../components/Categories';
 import PizzaBlock from '../../components/PizzaBlock';
 import Sort from '../../components/Sort';
 import Skeleton from '../../components/Skeleton';
 import Pagination from '../../components/Pagination';
-
 import { sortList } from '../../components/Sort';
+import PizzasDataError from '../../components/PizzasDataError';
 
 import styles from './Home.module.scss';
-import PizzasDataError from '../../components/PizzasDataError';
 
 function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { categoryId, sortObj, sortOrder, searchValue } = useSelector((state) => state.filterSlice);
-
-  const { itemsPizzas, dataPagination, status } = useSelector((state) => state.pizzaSlice);
+  const { categoryId, sortObj, sortOrder, searchValue, dataPagination } = useSelector(selectFilter);
+  const { itemsPizzas, status } = useSelector(selectPizzas);
 
   const isParam = React.useRef(false);
   const isFirstRender = React.useRef(true);
@@ -55,7 +49,6 @@ function Home() {
 
       const sortObjItem = sortList.find((item) => item.sortProperty === params.sort);
       dispatch(setFilters({ ...params, sort: sortObjItem, sortOrderItem }));
-      dispatch(setCurrentPage(params.page));
 
       isParam.current = true;
     }
@@ -63,7 +56,7 @@ function Home() {
 
   React.useEffect(() => {
     if (!isParam.current) {
-      dispatch(fetchData({ category, sort, page, search }));
+      dispatch(fetchDataPizzas({ category, sort, page, search }));
     }
     isParam.current = false;
     // isFirstRender.current = true;
@@ -107,6 +100,7 @@ function Home() {
 
   const skeleton = [...new Array(5)].map((_, index) => <Skeleton key={index} />);
 
+  console.log(itemsPizzas);
   const pizzas = itemsPizzas.map((item) => <PizzaBlock key={item.id} {...item} />);
 
   return (
