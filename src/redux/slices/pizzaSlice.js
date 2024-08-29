@@ -2,14 +2,18 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { setDataPagination } from './filterSlice';
 import axios from 'axios';
 
-export const fetchPizzas = createAsyncThunk('pizza/fetchPizzas', async (props, thunkAPI) => {
-  const { category, sort, page, search } = props;
-  const { data } = await axios.get(
-    `https://683883f38da35f95.mokky.dev/items?${category}${sort}${page}${search}`
-  );
-  thunkAPI.dispatch(setDataPagination(data.meta));
-  return data.items;
-});
+export const fetchDataPizzas = createAsyncThunk(
+  'pizza/fetchDataPizzas',
+  async (props, thunkAPI) => {
+    const { category, sort, page, search } = props;
+    const { data } = await axios.get(
+      `https://683883f38da35f95.mokky.dev/items?${category}${sort}${page}${search}`
+    );
+    console.log(data);
+    thunkAPI.dispatch(setDataPagination(data.meta));
+    return data.items;
+  }
+);
 
 const initialState = {
   itemsPizzas: [],
@@ -26,20 +30,22 @@ const pizzaSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchPizzas.pending, (state) => {
+      .addCase(fetchDataPizzas.pending, (state) => {
         state.itemsPizzas = [];
         state.status = 'loading';
       })
-      .addCase(fetchPizzas.fulfilled, (state, action) => {
+      .addCase(fetchDataPizzas.fulfilled, (state, action) => {
         state.itemsPizzas = action.payload;
         state.status = 'success';
       })
-      .addCase(fetchPizzas.rejected, (state) => {
+      .addCase(fetchDataPizzas.rejected, (state) => {
         state.itemsPizzas = [];
         state.status = 'error';
       });
   },
 });
+
+export const selectPizzas = (state) => state.pizzaSlice;
 
 export const { addItemsPizzas } = pizzaSlice.actions;
 export default pizzaSlice.reducer;
