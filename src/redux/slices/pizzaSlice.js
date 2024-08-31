@@ -9,7 +9,6 @@ export const fetchDataPizzas = createAsyncThunk(
     const { data } = await axios.get(
       `https://683883f38da35f95.mokky.dev/items?${category}${sort}${page}${search}`
     );
-    console.log(data);
     thunkAPI.dispatch(setDataPagination(data.meta));
     return data.items;
   }

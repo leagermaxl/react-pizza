@@ -100,7 +100,6 @@ function Home() {
 
   const skeleton = [...new Array(5)].map((_, index) => <Skeleton key={index} />);
 
-  console.log(itemsPizzas);
   const pizzas = itemsPizzas.map((item) => <PizzaBlock key={item.id} {...item} />);
 
   return (

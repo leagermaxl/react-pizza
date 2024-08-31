@@ -14,14 +14,14 @@ function Sort({ sortObj, onClickSortObj, sortOrder, onClickSortOrder }) {
   const sortRef = new React.useRef();
 
   React.useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutsideSort = (event) => {
       if (!event.composedPath().includes(sortRef.current)) {
         setOpened(false);
       }
     };
-    document.body.addEventListener('click', handleClickOutside);
+    document.body.addEventListener('click', handleClickOutsideSort);
     return () => {
-      document.body.removeEventListener('click', handleClickOutside);
+      document.body.removeEventListener('click', handleClickOutsideSort);
     };
   }, []);
 
