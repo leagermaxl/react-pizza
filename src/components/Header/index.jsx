@@ -12,7 +12,7 @@ function Header() {
   const countItems = items.reduce((sum, item) => sum + item.count, 0);
   return (
     <header>
-      <Link to={'react-pizza/'}>
+      <Link to={'/react-pizza/'}>
         <div className={styles.headerLeft}>
           <img src="img/logo.png" alt="Logo" />
           <div className={styles.headerLeftInfo}>
@@ -22,7 +22,7 @@ function Header() {
         </div>
       </Link>
       <Search />
-      <Link to={'react-pizza/cart'}>
+      <Link to={'cart'}>
         <div className={styles.headerRight}>
           <div className={styles.headerRightInfo}>
             <span className={styles.spanPrice}>{totalPrice} ₽</span>
