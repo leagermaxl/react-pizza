@@ -9,12 +9,12 @@ import CartItem from '../../components/CartItem';
 import styles from './Cart.module.scss';
 import CartEmpty from '../../components/CartEmpty';
 
-export default function Cart() {
+const Cart: React.FC = () => {
   const [openedPopup, setOpenedPopup] = React.useState(false);
 
   const dispatch = useDispatch();
   const { items, totalPrice } = useSelector(selectCart);
-  const countItems = items.reduce((sum, item) => sum + item.count, 0);
+  const countItems = items.reduce((sum: number, item: any) => sum + item.count, 0);
 
   const onClickClearCart = () => {
     dispatch(clearCart());
@@ -106,7 +106,7 @@ export default function Cart() {
               Очистить корзину
             </span>
           </div>
-          {items.map((item, index) => (
+          {items.map((item: any, index: number) => (
             <CartItem key={index} {...item} />
           ))}
           <div className={styles.cartInfo}>
@@ -146,4 +146,6 @@ export default function Cart() {
       )}
     </div>
   );
-}
+};
+
+export default Cart;

@@ -23,7 +23,7 @@ import PizzasDataError from '../../components/PizzasDataError';
 
 import styles from './Home.module.scss';
 
-function Home() {
+const Home: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -40,7 +40,7 @@ function Home() {
 
   React.useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
+      const params: any = qs.parse(window.location.search.substring(1));
       let sortOrderItem = true;
       if (params.sort[0] === '-') {
         sortOrderItem = false;
@@ -56,7 +56,10 @@ function Home() {
 
   React.useEffect(() => {
     if (!isParam.current) {
-      dispatch(fetchDataPizzas({ category, sort, page, search }));
+      dispatch(
+        //@ts-ignore
+        fetchDataPizzas({ category, sort, page, search })
+      );
     }
     isParam.current = false;
     // isFirstRender.current = true;
@@ -82,25 +85,25 @@ function Home() {
     isFirstRender.current = false;
   }, [categoryId, sortObj, sortOrder, dataPagination, navigate]);
 
-  const onChangeCategory = (id) => {
+  const onChangeCategory = (id: number) => {
     dispatch(setCategoryId(id));
   };
 
-  const onChangeSortObj = (sortObject) => {
+  const onChangeSortObj = (sortObject: any) => {
     dispatch(setSortObj(sortObject));
   };
 
-  const onChangePage = (newPage) => {
+  const onChangePage = (newPage: number) => {
     dispatch(setDataPagination({ ...dataPagination, current_page: newPage }));
   };
 
-  const onChangeSortOrder = (order) => {
+  const onChangeSortOrder = (order: boolean) => {
     dispatch(setSortOrder(order));
   };
 
   const skeleton = [...new Array(5)].map((_, index) => <Skeleton key={index} />);
 
-  const pizzas = itemsPizzas.map((item) => <PizzaBlock key={item.id} {...item} />);
+  const pizzas = itemsPizzas.map((item: any) => <PizzaBlock key={item.id} {...item} />);
 
   return (
     <>
@@ -124,6 +127,6 @@ function Home() {
       )}
     </>
   );
-}
+};
 
 export default Home;

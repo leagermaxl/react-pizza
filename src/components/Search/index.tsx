@@ -10,7 +10,7 @@ function Search() {
   const dispatch = useDispatch();
 
   const [value, setValue] = React.useState('');
-  const inputRef = React.useRef();
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   // eslint-disable-next-line
   const updateSearchValue = React.useCallback(
@@ -20,7 +20,7 @@ function Search() {
     []
   );
 
-  const OnChangeInput = (event) => {
+  const OnChangeInput = (event: any) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };
@@ -28,7 +28,7 @@ function Search() {
   const clearSearchValue = () => {
     setValue('');
     updateSearchValue('');
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
 
   return (

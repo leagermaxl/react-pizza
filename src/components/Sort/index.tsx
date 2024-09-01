@@ -2,19 +2,31 @@ import React from 'react';
 
 import styles from './Sort.module.scss';
 
-export const sortList = [
+type sortItem = {
+  name: string;
+  sortProperty: string;
+};
+
+type sortProps = {
+  sortObj: sortItem;
+  onClickSortObj: any;
+  sortOrder: boolean;
+  onClickSortOrder: any;
+};
+
+export const sortList: sortItem[] = [
   { name: 'популярности', sortProperty: 'rating' },
   { name: 'цене', sortProperty: 'price' },
   { name: 'алфавиту', sortProperty: 'title' },
 ];
 
-function Sort({ sortObj, onClickSortObj, sortOrder, onClickSortOrder }) {
+const Sort: React.FC<sortProps> = ({ sortObj, onClickSortObj, sortOrder, onClickSortOrder }) => {
   const [opened, setOpened] = React.useState(false);
 
-  const sortRef = new React.useRef();
+  const sortRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    const handleClickOutsideSort = (event) => {
+    const handleClickOutsideSort = (event: any) => {
       if (!event.composedPath().includes(sortRef.current)) {
         setOpened(false);
       }
@@ -25,7 +37,7 @@ function Sort({ sortObj, onClickSortObj, sortOrder, onClickSortOrder }) {
     };
   }, []);
 
-  const clickOnSort = (obj) => {
+  const clickOnSort = (obj: sortItem) => {
     onClickSortObj(obj);
     setOpened(false);
   };
@@ -69,5 +81,5 @@ function Sort({ sortObj, onClickSortObj, sortOrder, onClickSortOrder }) {
       )}
     </div>
   );
-}
+};
 export default Sort;

@@ -7,9 +7,9 @@ import Search from '../Search';
 
 import styles from './Header.module.scss';
 
-function Header() {
+const Header: React.FC = () => {
   const { totalPrice, items } = useSelector(selectCart);
-  const countItems = items.reduce((sum, item) => sum + item.count, 0);
+  const countItems = items.reduce((sum: number, item: any) => sum + item.count, 0);
   return (
     <header>
       <Link to={'/react-pizza/'}>
@@ -65,6 +65,6 @@ function Header() {
       </Link>
     </header>
   );
-}
+};
 
 export default Header;

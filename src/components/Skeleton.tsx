@@ -3,7 +3,7 @@ import ContentLoader from 'react-content-loader';
 
 import styles from '../components/PizzaBlock/PizzaBlock.module.scss';
 
-function Skeleton() {
+const Skeleton: React.FC = () => {
   return (
     <div className={styles.pizzaBlockWrapper}>
       <ContentLoader
@@ -23,6 +23,6 @@ function Skeleton() {
       </ContentLoader>
     </div>
   );
-}
+};
 
 export default Skeleton;

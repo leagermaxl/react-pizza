@@ -3,7 +3,12 @@ import ReactPaginate from 'react-paginate';
 
 import styles from './Pagination.module.scss';
 
-function Pagination({ dataPagination, setNewPage }) {
+type PaginationProps = {
+  dataPagination: any;
+  setNewPage: any;
+};
+
+const Pagination: React.FC<PaginationProps> = ({ dataPagination, setNewPage }) => {
   return (
     <ReactPaginate
       className={styles.root}
@@ -17,6 +22,6 @@ function Pagination({ dataPagination, setNewPage }) {
       renderOnZeroPageCount={null}
     />
   );
-}
+};
 
 export default Pagination;

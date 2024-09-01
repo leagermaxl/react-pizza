@@ -6,10 +6,46 @@ import RemovePopup from '../RemovePopup';
 
 import styles from './CartItem.module.scss';
 
-function CartItem({ id, title, price, imageUrl, type, size, count }) {
+type CartItemProps = {
+  id: number;
+  title: string;
+  price: number;
+  imageUrl: string;
+  type: string;
+  size: string;
+  count: number;
+};
+
+const CartItem: React.FC<CartItemProps> = ({ id, title, price, imageUrl, type, size, count }) => {
   const [openedPopup, setOpenedPopup] = React.useState(false);
 
   const dispatch = useDispatch();
+
+  // const removePopupRef = React.useRef(null);
+  // const clickedRef = React.useRef(true);
+
+  // React.useEffect(() => {
+  //   console.log('useEffect');
+
+  //   const handleClickOutsideCartItem = (event) => {
+  //     if (!event.composedPath().includes(removePopupRef.current)) {
+  //       if (clickedRef.current) {
+  //         clickedRef.current = false;
+  //       } else {
+  //         console.log(event.composedPath());
+  //         setOpenedPopup(false);
+  //       }
+  //     }
+  //     console.log(removePopupRef.current);
+  //     console.log(event.composedPath());
+  //   };
+
+  //   document.body.addEventListener('click', handleClickOutsideCartItem);
+  //   // console.log(removePopupRef.current);
+  //   return () => {
+  //     document.body.removeEventListener('click', handleClickOutsideCartItem);
+  //   };
+  // }, [removePopupRef]);
 
   const onClickPlus = () => {
     const itemObject = { id, title, price, imageUrl, type, size, count };
@@ -90,6 +126,7 @@ function CartItem({ id, title, price, imageUrl, type, size, count }) {
       </div>
       {openedPopup && (
         <RemovePopup
+          // ref={removePopupRef}
           title={'Действительно хотите удалить пиццу из корзины?'}
           confirm={onClickRemoveItems}
           deny={() => setOpenedPopup(false)}
@@ -97,6 +134,6 @@ function CartItem({ id, title, price, imageUrl, type, size, count }) {
       )}
     </div>
   );
-}
+};
 
 export default CartItem;
