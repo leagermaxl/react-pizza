@@ -3,8 +3,8 @@ import styles from './RemovePopup.module.scss';
 // const RemovePopup = forwardRef(function RemovePopup({ title, confirm, deny }, ref) {
 type RemovePopupProps = {
   title: string;
-  confirm: any;
-  deny: any;
+  confirm: () => void;
+  deny: () => void;
 };
 const RemovePopup: React.FC<RemovePopupProps> = ({ title, confirm, deny }) => {
   // const removePopupRef = React.useRef();

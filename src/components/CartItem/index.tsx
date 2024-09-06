@@ -1,6 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+
 import { addItems, minusItem, removeItems } from '../../redux/slices/cartSlice';
+import { useAppDispatch } from '../../redux/store';
 
 import RemovePopup from '../RemovePopup';
 
@@ -12,14 +13,14 @@ type CartItemProps = {
   price: number;
   imageUrl: string;
   type: string;
-  size: string;
+  size: number;
   count: number;
 };
 
 const CartItem: React.FC<CartItemProps> = ({ id, title, price, imageUrl, type, size, count }) => {
   const [openedPopup, setOpenedPopup] = React.useState(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // const removePopupRef = React.useRef(null);
   // const clickedRef = React.useRef(true);

@@ -1,8 +1,8 @@
 import React from 'react';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-import { useSelector, useDispatch } from 'react-redux';
 import {
   setCategoryId,
   setSortObj,
@@ -10,8 +10,16 @@ import {
   setDataPagination,
   setFilters,
   selectFilter,
+  SortType,
 } from '../../redux/slices/filterSlice';
-import { fetchDataPizzas, selectPizzas } from '../../redux/slices/pizzaSlice';
+import {
+  fetchDataPizzas,
+  Pizza,
+  selectPizzas,
+  SortPizzaParams,
+  Status,
+} from '../../redux/slices/pizzaSlice';
+import { useAppDispatch } from '../../redux/store';
 
 import Categories from '../../components/Categories';
 import PizzaBlock from '../../components/PizzaBlock';
@@ -24,7 +32,7 @@ import PizzasDataError from '../../components/PizzasDataError';
 import styles from './Home.module.scss';
 
 const Home: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const { categoryId, sortObj, sortOrder, searchValue, dataPagination } = useSelector(selectFilter);
@@ -36,19 +44,29 @@ const Home: React.FC = () => {
   const category = `${categoryId > 0 ? `&category=${categoryId}` : ''}`;
   const sort = `&sortBy=${sortOrder ? '' : '-'}${sortObj.sortProperty}`;
   const search = `${searchValue === '' ? '' : `&title=*${searchValue}*`}`;
-  const page = `&page=${dataPagination.current_page}&limit=5`;
+  const page = `&page=${dataPagination?.current_page}&limit=5`;
 
   React.useEffect(() => {
     if (window.location.search) {
-      const params: any = qs.parse(window.location.search.substring(1));
+      const params = qs.parse(window.location.search.substring(1)) as unknown as SortPizzaParams;
       let sortOrderItem = true;
-      if (params.sort[0] === '-') {
+      if (params?.sort[0] === '-') {
         sortOrderItem = false;
-        params.sort = params.sort.substring(1);
+        params.sort = params?.sort?.substring(1);
       }
 
-      const sortObjItem = sortList.find((item) => item.sortProperty === params.sort);
-      dispatch(setFilters({ ...params, sort: sortObjItem, sortOrderItem }));
+      const sortObjItem = sortList.find((item) => item.sortProperty === params.sort) as SortType;
+      // if (sortObjItem) {
+      dispatch(
+        setFilters({
+          ...params,
+          page: Number(params.page),
+          categoryId: Number(params.category),
+          sortObj: sortObjItem,
+          sortOrder: sortOrderItem,
+        })
+      );
+      // }
 
       isParam.current = true;
     }
@@ -56,10 +74,7 @@ const Home: React.FC = () => {
 
   React.useEffect(() => {
     if (!isParam.current) {
-      dispatch(
-        //@ts-ignore
-        fetchDataPizzas({ category, sort, page, search })
-      );
+      dispatch(fetchDataPizzas({ category, sort, page, search }));
     }
     isParam.current = false;
     // isFirstRender.current = true;
@@ -70,7 +85,7 @@ const Home: React.FC = () => {
       let queryString = '';
       const categoryQS = categoryId;
       const sortQS = `${sortOrder ? '' : '-'}${sortObj.sortProperty}`;
-      const pageQS = dataPagination.current_page;
+      const pageQS = dataPagination?.current_page;
 
       if (categoryQS !== 0 || sortQS !== 'rating' || pageQS !== 1) {
         queryString = qs.stringify({
@@ -89,12 +104,12 @@ const Home: React.FC = () => {
     dispatch(setCategoryId(id));
   };
 
-  const onChangeSortObj = (sortObject: any) => {
+  const onChangeSortObj = (sortObject: SortType) => {
     dispatch(setSortObj(sortObject));
   };
 
   const onChangePage = (newPage: number) => {
-    dispatch(setDataPagination({ ...dataPagination, current_page: newPage }));
+    if (dataPagination) dispatch(setDataPagination({ ...dataPagination, current_page: newPage }));
   };
 
   const onChangeSortOrder = (order: boolean) => {
@@ -103,7 +118,7 @@ const Home: React.FC = () => {
 
   const skeleton = [...new Array(5)].map((_, index) => <Skeleton key={index} />);
 
-  const pizzas = itemsPizzas.map((item: any) => <PizzaBlock key={item.id} {...item} />);
+  const pizzas = itemsPizzas.map((item: Pizza) => <PizzaBlock key={item.id} {...item} />);
 
   return (
     <>
@@ -116,13 +131,15 @@ const Home: React.FC = () => {
           onClickSortOrder={onChangeSortOrder}
         />
       </div>
-      {status === 'error' ? (
+      {status === Status.ERROR ? (
         <PizzasDataError />
       ) : (
         <>
           <h1>Все пиццы</h1>
-          <div className={styles.pizzas}>{status === 'loading' ? skeleton : pizzas}</div>
-          <Pagination dataPagination={dataPagination} setNewPage={onChangePage} />
+          <div className={styles.pizzas}>{status === Status.LOADING ? skeleton : pizzas}</div>
+          {dataPagination && (
+            <Pagination dataPagination={dataPagination} setNewPage={onChangePage} />
+          )}
         </>
       )}
     </>

@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactPaginate from 'react-paginate';
 
+import { DataPaginationType } from '../../redux/slices/filterSlice';
+
 import styles from './Pagination.module.scss';
 
 type PaginationProps = {
-  dataPagination: any;
-  setNewPage: any;
+  dataPagination: DataPaginationType;
+  setNewPage: (newPage: number) => void;
 };
 
 const Pagination: React.FC<PaginationProps> = ({ dataPagination, setNewPage }) => {

@@ -2,14 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { selectCart } from '../../redux/slices/cartSlice';
+import { CartItemType, selectCart } from '../../redux/slices/cartSlice';
+
 import Search from '../Search';
 
 import styles from './Header.module.scss';
 
 const Header: React.FC = () => {
   const { totalPrice, items } = useSelector(selectCart);
-  const countItems = items.reduce((sum: number, item: any) => sum + item.count, 0);
+  const countItems = items.reduce((sum: number, item: CartItemType) => sum + item.count, 0);
   return (
     <header>
       <Link to={'/react-pizza/'}>
