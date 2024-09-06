@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
+import { useAppDispatch } from '../../redux/store';
 import { addItems, CartItemType, selectCartItems } from '../../redux/slices/cartSlice';
 
 import styles from './PizzaBlock.module.scss';
@@ -11,18 +12,18 @@ type PizzaBlockProps = {
   title: string;
   price: number;
   imageUrl: string;
-  size: number[];
-  type: number[];
+  sizes: number[];
+  types: number[];
 };
 
-const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl, size, type }) => {
-  const [activeType, setActiveType] = React.useState(type[0]);
-  const [activeSize, setActiveSize] = React.useState(size[0]);
+const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl, sizes, types }) => {
+  const [activeType, setActiveType] = React.useState(types[0]);
+  const [activeSize, setActiveSize] = React.useState(sizes[0]);
 
   const typeArray = ['тонкое', 'традиционное'];
   const sizeArray = [26, 30, 40];
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const cartItems = useSelector(selectCartItems);
 
   const countItem = cartItems.find((item: CartItemType) => item.id === id);
@@ -50,7 +51,7 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl, siz
         <div className={styles.options}>
           <ul>
             {typeArray.map((typeItem, index) => {
-              const typeIncludes = type.includes(index);
+              const typeIncludes = types.includes(index);
               return (
                 <li
                   key={index}
@@ -66,7 +67,7 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl, siz
           </ul>
           <ul>
             {sizeArray.map((sizeItem) => {
-              const sizeIncludes = size.includes(sizeItem);
+              const sizeIncludes = sizes.includes(sizeItem);
               return (
                 <li
                   key={sizeItem}
