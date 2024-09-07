@@ -1,34 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { RootState } from '../store';
-
-export enum SortProperty {
-  RATING = 'rating',
-  PRICE = 'price',
-  TITLE = 'title',
-}
-
-export type SortType = {
-  name: string;
-  sortProperty: SortProperty;
-};
-
-export type DataPaginationType = {
-  current_page: number;
-  per_page: number;
-  total_pages: number;
-  remaining_count?: number;
-  total_items?: number;
-};
-
-interface FilterSliceState {
-  categoryId: number;
-  sortObj: SortType;
-  sortOrder: boolean;
-  searchValue?: string;
-  dataPagination?: DataPaginationType;
-  page?: number;
-}
+import { DataPaginationType, FilterSliceState, SortProperty, SortType } from './types';
 
 const initialState: FilterSliceState = {
   categoryId: 0,
@@ -73,8 +45,6 @@ const filterSlice = createSlice({
     },
   },
 });
-
-export const selectFilter = (state: RootState) => state.filterSlice;
 
 export const {
   setCategoryId,
