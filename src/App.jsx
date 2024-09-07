@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import Header from './components/Header';
-
+import MainLayout from './layouts/MainLayout';
 import Home from './Pages/Home';
 import Cart from './Pages/Cart';
 import NotFound from './Pages/NotFound';
+import Pizza from './Pages/Pizza';
 
 // export const AppContext = React.createContext();
 
@@ -14,16 +14,14 @@ function App() {
   // console.log(searchValue);
 
   return (
-    <div className="wrapper">
-      <Header />
-      <div className="content">
-        <Routes>
-          <Route path="react-pizza/" element={<Home />} />
-          <Route path="react-pizza/cart" element={<Cart />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
-    </div>
+    <Routes>
+      <Route path="react-pizza/" element={<MainLayout />}>
+        <Route path="" element={<Home />} />
+        <Route path=":id" element={<Pizza />} />
+        <Route path="cart" element={<Cart />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   );
 }
 

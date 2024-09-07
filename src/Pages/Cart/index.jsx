@@ -34,7 +34,6 @@ export default function Cart() {
           )}
           <div className={styles.cartTop}>
             <h1>
-              {/* <img src="img/cart.svg" alt="Cart" /> */}
               <svg
                 width="18"
                 height="18"
@@ -107,8 +106,8 @@ export default function Cart() {
               Очистить корзину
             </span>
           </div>
-          {items.map((item) => (
-            <CartItem {...item} />
+          {items.map((item, index) => (
+            <CartItem key={index} {...item} />
           ))}
           <div className={styles.cartInfo}>
             <p>
@@ -136,7 +135,6 @@ export default function Cart() {
                     strokeLinejoin="round"
                   />
                 </svg>
-                {/* <img src="img/arrow.svg" alt="Arrow" /> */}
                 Вернуться назад
               </button>
             </Link>
