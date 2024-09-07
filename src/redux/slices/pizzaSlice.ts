@@ -73,6 +73,9 @@ const pizzaSlice = createSlice({
       .addCase(fetchDataPizzas.fulfilled, (state, action: PayloadAction<Pizza[]>) => {
         state.itemsPizzas = action.payload;
         state.status = Status.SUCCESS;
+        if (action.payload.length <= 0) {
+          state.status = Status.ERROR;
+        }
       })
       .addCase(fetchDataPizzas.rejected, (state) => {
         state.itemsPizzas = [];

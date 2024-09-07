@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { CartItemType, selectCart } from '../../redux/slices/cartSlice';
@@ -10,6 +10,8 @@ import styles from './Header.module.scss';
 
 const Header: React.FC = () => {
   const { totalPrice, items } = useSelector(selectCart);
+  const location = useLocation();
+  console.log(location);
   const countItems = items.reduce((sum: number, item: CartItemType) => sum + item.count, 0);
   return (
     <header>
@@ -22,7 +24,7 @@ const Header: React.FC = () => {
           </div>
         </div>
       </Link>
-      <Search />
+      {location.pathname !== '/react-pizza/cart' && <Search />}
       <Link to={'cart'}>
         <div className={styles.headerRight}>
           <div className={styles.headerRightInfo}>

@@ -74,7 +74,7 @@ const CartItem: React.FC<CartItemProps> = ({ id, title, price, imageUrl, type, s
         </div>
       </div>
       <div className={styles.cartItemCount}>
-        <div onClick={onClickMinus} className={`${styles.btnCircle} ${styles.btnCount}`}>
+        <button onClick={onClickMinus} className={`${styles.btnCircle} ${styles.btnCount}`}>
           <svg
             width="10"
             height="2"
@@ -88,9 +88,9 @@ const CartItem: React.FC<CartItemProps> = ({ id, title, price, imageUrl, type, s
             />
           </svg>
           {/* <img src="img/minus.svg" alt="Count minus" /> */}
-        </div>
+        </button>
         <span>{count}</span>
-        <div onClick={onClickPlus} className={`${styles.btnCircle} ${styles.btnCount}`}>
+        <button onClick={onClickPlus} className={`${styles.btnCircle} ${styles.btnCount}`}>
           <svg
             width="10"
             height="10"
@@ -104,7 +104,7 @@ const CartItem: React.FC<CartItemProps> = ({ id, title, price, imageUrl, type, s
             />
           </svg>
           {/* <img src="img/plus.svg" alt="Count plus" /> */}
-        </div>
+        </button>
       </div>
       <span>{price * count} ₽</span>
       <div

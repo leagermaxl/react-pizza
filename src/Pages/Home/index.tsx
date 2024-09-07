@@ -100,26 +100,27 @@ const Home: React.FC = () => {
     isFirstRender.current = false;
   }, [categoryId, sortObj, sortOrder, dataPagination, navigate]);
 
-  const onChangeCategory = (id: number) => {
+  const onChangeCategory = React.useCallback((id: number) => {
     dispatch(setCategoryId(id));
-  };
+  }, []);
 
-  const onChangeSortObj = (sortObject: SortType) => {
+  const onChangeSortObj = React.useCallback((sortObject: SortType) => {
     dispatch(setSortObj(sortObject));
-  };
+  }, []);
 
   const onChangePage = (newPage: number) => {
     if (dataPagination) dispatch(setDataPagination({ ...dataPagination, current_page: newPage }));
   };
 
-  const onChangeSortOrder = (order: boolean) => {
+  const onChangeSortOrder = React.useCallback((order: boolean) => {
     dispatch(setSortOrder(order));
-  };
+  }, []);
 
   const skeleton = [...new Array(5)].map((_, index) => <Skeleton key={index} />);
 
   const pizzas = itemsPizzas.map((item: Pizza) => <PizzaBlock key={item.id} {...item} />);
 
+  console.log(status);
   return (
     <>
       <div className={styles.contentTop}>

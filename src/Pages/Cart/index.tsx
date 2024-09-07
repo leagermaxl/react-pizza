@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
+import { useAppDispatch } from '../../redux/store';
 import { CartItemType, clearCart, selectCart } from '../../redux/slices/cartSlice';
 
 import RemovePopup from '../../components/RemovePopup';
@@ -13,7 +14,7 @@ import styles from './Cart.module.scss';
 const Cart: React.FC = () => {
   const [openedPopup, setOpenedPopup] = React.useState(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { items, totalPrice } = useSelector(selectCart);
   const countItems = items.reduce((sum: number, item: CartItemType) => sum + item.count, 0);
 
