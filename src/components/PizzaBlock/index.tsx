@@ -1,22 +1,34 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { addItems, selectCartItems } from '../../redux/slices/cartSlice';
+import { useAppDispatch } from '../../redux/store';
+import { selectCartItems } from '../../redux/cart/selectors';
+import { CartItemType } from '../../redux/cart/types';
+import { addItems } from '../../redux/cart/slice';
 
 import styles from './PizzaBlock.module.scss';
 
-function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
+type PizzaBlockProps = {
+  id: number;
+  title: string;
+  price: number;
+  imageUrl: string;
+  sizes: number[];
+  types: number[];
+};
+
+const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl, sizes, types }) => {
   const [activeType, setActiveType] = React.useState(types[0]);
   const [activeSize, setActiveSize] = React.useState(sizes[0]);
 
   const typeArray = ['тонкое', 'традиционное'];
   const sizeArray = [26, 30, 40];
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const cartItems = useSelector(selectCartItems);
 
-  const countItem = cartItems.find((item) => item.id === id);
+  const countItem = cartItems.find((item: CartItemType) => item.id === id);
 
   const addToCart = () => {
     const itemObject = {
@@ -26,6 +38,7 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
       imageUrl,
       size: activeSize,
       type: typeArray[activeType],
+      count: 0,
     };
     dispatch(addItems(itemObject));
   };
@@ -39,7 +52,7 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
         <h2>{title}</h2>
         <div className={styles.options}>
           <ul>
-            {typeArray.map((typeName, index) => {
+            {typeArray.map((typeItem, index) => {
               const typeIncludes = types.includes(index);
               return (
                 <li
@@ -49,23 +62,23 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
                     typeIncludes ? '' : styles.disabled
                   }`}
                 >
-                  {typeName}
+                  {typeItem}
                 </li>
               );
             })}
           </ul>
           <ul>
-            {sizeArray.map((size) => {
-              const sizeIncludes = sizes.includes(size);
+            {sizeArray.map((sizeItem) => {
+              const sizeIncludes = sizes.includes(sizeItem);
               return (
                 <li
-                  key={size}
-                  onClick={sizeIncludes ? () => setActiveSize(size) : () => {}}
-                  className={`${activeSize === size ? styles.active : ''} ${
+                  key={sizeItem}
+                  onClick={sizeIncludes ? () => setActiveSize(sizeItem) : () => {}}
+                  className={`${activeSize === sizeItem ? styles.active : ''} ${
                     sizeIncludes ? '' : styles.disabled
                   }`}
                 >
-                  {size} см.
+                  {sizeItem} см.
                 </li>
               );
             })}
@@ -97,6 +110,6 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
       </div>
     </div>
   );
-}
+};
 
 export default PizzaBlock;

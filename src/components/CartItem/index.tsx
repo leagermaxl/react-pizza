@@ -1,15 +1,52 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { addItems, minusItem, removeItems } from '../../redux/slices/cartSlice';
+
+import { addItems, minusItem, removeItems } from '../../redux/cart/slice';
+import { useAppDispatch } from '../../redux/store';
 
 import RemovePopup from '../RemovePopup';
 
 import styles from './CartItem.module.scss';
 
-function CartItem({ id, title, price, imageUrl, type, size, count }) {
+type CartItemProps = {
+  id: number;
+  title: string;
+  price: number;
+  imageUrl: string;
+  type: string;
+  size: number;
+  count: number;
+};
+
+const CartItem: React.FC<CartItemProps> = ({ id, title, price, imageUrl, type, size, count }) => {
   const [openedPopup, setOpenedPopup] = React.useState(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
+  // const removePopupRef = React.useRef(null);
+  // const clickedRef = React.useRef(true);
+
+  // React.useEffect(() => {
+  //   console.log('useEffect');
+
+  //   const handleClickOutsideCartItem = (event) => {
+  //     if (!event.composedPath().includes(removePopupRef.current)) {
+  //       if (clickedRef.current) {
+  //         clickedRef.current = false;
+  //       } else {
+  //         console.log(event.composedPath());
+  //         setOpenedPopup(false);
+  //       }
+  //     }
+  //     console.log(removePopupRef.current);
+  //     console.log(event.composedPath());
+  //   };
+
+  //   document.body.addEventListener('click', handleClickOutsideCartItem);
+  //   // console.log(removePopupRef.current);
+  //   return () => {
+  //     document.body.removeEventListener('click', handleClickOutsideCartItem);
+  //   };
+  // }, [removePopupRef]);
 
   const onClickPlus = () => {
     const itemObject = { id, title, price, imageUrl, type, size, count };
@@ -37,7 +74,11 @@ function CartItem({ id, title, price, imageUrl, type, size, count }) {
         </div>
       </div>
       <div className={styles.cartItemCount}>
-        <div onClick={onClickMinus} className={`${styles.btnCircle} ${styles.btnCount}`}>
+        <button
+          onClick={onClickMinus}
+          className={`${styles.btnCircle} ${styles.btnCount}`}
+          disabled={count === 1}
+        >
           <svg
             width="10"
             height="2"
@@ -51,9 +92,9 @@ function CartItem({ id, title, price, imageUrl, type, size, count }) {
             />
           </svg>
           {/* <img src="img/minus.svg" alt="Count minus" /> */}
-        </div>
+        </button>
         <span>{count}</span>
-        <div onClick={onClickPlus} className={`${styles.btnCircle} ${styles.btnCount}`}>
+        <button onClick={onClickPlus} className={`${styles.btnCircle} ${styles.btnCount}`}>
           <svg
             width="10"
             height="10"
@@ -67,7 +108,7 @@ function CartItem({ id, title, price, imageUrl, type, size, count }) {
             />
           </svg>
           {/* <img src="img/plus.svg" alt="Count plus" /> */}
-        </div>
+        </button>
       </div>
       <span>{price * count} ₽</span>
       <div
@@ -90,6 +131,7 @@ function CartItem({ id, title, price, imageUrl, type, size, count }) {
       </div>
       {openedPopup && (
         <RemovePopup
+          // ref={removePopupRef}
           title={'Действительно хотите удалить пиццу из корзины?'}
           confirm={onClickRemoveItems}
           deny={() => setOpenedPopup(false)}
@@ -97,6 +139,6 @@ function CartItem({ id, title, price, imageUrl, type, size, count }) {
       )}
     </div>
   );
-}
+};
 
 export default CartItem;

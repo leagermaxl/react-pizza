@@ -1,15 +1,28 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { selectCart } from '../../redux/slices/cartSlice';
+import { selectCart } from '../../redux/cart/selectors';
+
+import { calcCartItemsCount } from '../../utils/calcCartItemsCount';
 import Search from '../Search';
 
 import styles from './Header.module.scss';
 
-function Header() {
+const Header: React.FC = () => {
+  const isFirstRender = React.useRef(true);
+
   const { totalPrice, items } = useSelector(selectCart);
-  const countItems = items.reduce((sum, item) => sum + item.count, 0);
+  const location = useLocation();
+
+  React.useEffect(() => {
+    if (!isFirstRender.current) {
+      localStorage.setItem('cart', JSON.stringify(items));
+    }
+    isFirstRender.current = false;
+  }, [items]);
+
+  const countItems = calcCartItemsCount(items);
   return (
     <header>
       <Link to={'/react-pizza/'}>
@@ -21,7 +34,7 @@ function Header() {
           </div>
         </div>
       </Link>
-      <Search />
+      {location.pathname !== '/react-pizza/cart' && <Search />}
       <Link to={'cart'}>
         <div className={styles.headerRight}>
           <div className={styles.headerRightInfo}>
@@ -57,7 +70,6 @@ function Header() {
                   strokeLinejoin="round"
                 />
               </svg>
-              {/* <img src="img/cart.svg" alt="Cart" /> */}
               <span>{countItems}</span>
             </div>
           </div>
@@ -65,6 +77,6 @@ function Header() {
       </Link>
     </header>
   );
-}
+};
 
 export default Header;

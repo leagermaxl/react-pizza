@@ -2,7 +2,12 @@ import React from 'react';
 
 import styles from './Categories.module.scss';
 
-function Categories({ categoryId, onClickCategory }) {
+type CategoriesProps = {
+  categoryId: number;
+  onClickCategory: (index: number) => void;
+};
+
+const Categories: React.FC<CategoriesProps> = React.memo(({ categoryId, onClickCategory }) => {
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 
   return (
@@ -20,6 +25,6 @@ function Categories({ categoryId, onClickCategory }) {
       </ul>
     </div>
   );
-}
+});
 
 export default Categories;
