@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SortProperty, SortType } from '../../redux/slices/filterSlice';
+import { SortProperty, SortType } from '../../redux/filter/types';
 
 import styles from './Sort.module.scss';
 

@@ -3,22 +3,36 @@ import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+// import {
+//   setCategoryId,
+//   setSortObj,
+//   setSortOrder,
+//   setDataPagination,
+//   setFilters,
+//   selectFilter,
+//   SortType,
+// } from '../../redux/slices/filterSlice';
+// import {
+//   fetchDataPizzas,
+//   Pizza,
+//   selectPizzas,
+//   SortPizzaParams,
+//   Status,
+// } from '../../redux/slices/pizzaSlice';
+
+import { selectFilter } from '../../redux/filter/selectors';
+import { selectPizzas } from '../../redux/pizza/selectors';
+import { Pizza, SortPizzaParams, Status } from '../../redux/pizza/types';
+import { SortType } from '../../redux/filter/types';
 import {
   setCategoryId,
-  setSortObj,
-  setSortOrder,
   setDataPagination,
   setFilters,
-  selectFilter,
-  SortType,
-} from '../../redux/slices/filterSlice';
-import {
-  fetchDataPizzas,
-  Pizza,
-  selectPizzas,
-  SortPizzaParams,
-  Status,
-} from '../../redux/slices/pizzaSlice';
+  setSortObj,
+  setSortOrder,
+} from '../../redux/filter/slice';
+import { fetchDataPizzas } from '../../redux/pizza/asyncActions';
+
 import { useAppDispatch } from '../../redux/store';
 
 import Categories from '../../components/Categories';
@@ -56,7 +70,6 @@ const Home: React.FC = () => {
       }
 
       const sortObjItem = sortList.find((item) => item.sortProperty === params.sort) as SortType;
-      // if (sortObjItem) {
       dispatch(
         setFilters({
           ...params,
@@ -66,7 +79,6 @@ const Home: React.FC = () => {
           sortOrder: sortOrderItem,
         })
       );
-      // }
 
       isParam.current = true;
     }
@@ -100,21 +112,30 @@ const Home: React.FC = () => {
     isFirstRender.current = false;
   }, [categoryId, sortObj, sortOrder, dataPagination, navigate]);
 
-  const onChangeCategory = React.useCallback((id: number) => {
-    dispatch(setCategoryId(id));
-  }, []);
+  const onChangeCategory = React.useCallback(
+    (id: number) => {
+      dispatch(setCategoryId(id));
+    },
+    [dispatch]
+  );
 
-  const onChangeSortObj = React.useCallback((sortObject: SortType) => {
-    dispatch(setSortObj(sortObject));
-  }, []);
+  const onChangeSortObj = React.useCallback(
+    (sortObject: SortType) => {
+      dispatch(setSortObj(sortObject));
+    },
+    [dispatch]
+  );
 
   const onChangePage = (newPage: number) => {
     if (dataPagination) dispatch(setDataPagination({ ...dataPagination, current_page: newPage }));
   };
 
-  const onChangeSortOrder = React.useCallback((order: boolean) => {
-    dispatch(setSortOrder(order));
-  }, []);
+  const onChangeSortOrder = React.useCallback(
+    (order: boolean) => {
+      dispatch(setSortOrder(order));
+    },
+    [dispatch]
+  );
 
   const skeleton = [...new Array(5)].map((_, index) => <Skeleton key={index} />);
 

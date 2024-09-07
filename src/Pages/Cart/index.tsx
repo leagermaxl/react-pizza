@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from '../../redux/store';
-import { CartItemType, clearCart, selectCart } from '../../redux/slices/cartSlice';
+
+import { clearCart } from '../../redux/cart/slice';
+import { selectCart } from '../../redux/cart/selectors';
+import { CartItemType } from '../../redux/cart/types';
 
 import RemovePopup from '../../components/RemovePopup';
 import CartItem from '../../components/CartItem';

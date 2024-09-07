@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from '../../redux/store';
-import { addItems, CartItemType, selectCartItems } from '../../redux/slices/cartSlice';
+import { selectCartItems } from '../../redux/cart/selectors';
+import { CartItemType } from '../../redux/cart/types';
+import { addItems } from '../../redux/cart/slice';
 
 import styles from './PizzaBlock.module.scss';
 

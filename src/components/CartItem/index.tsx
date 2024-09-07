@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { addItems, minusItem, removeItems } from '../../redux/slices/cartSlice';
+import { addItems, minusItem, removeItems } from '../../redux/cart/slice';
 import { useAppDispatch } from '../../redux/store';
 
 import RemovePopup from '../RemovePopup';

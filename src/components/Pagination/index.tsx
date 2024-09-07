@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactPaginate from 'react-paginate';
 
-import { DataPaginationType } from '../../redux/slices/filterSlice';
+import { DataPaginationType } from '../../redux/filter/types';
 
 import styles from './Pagination.module.scss';
 
