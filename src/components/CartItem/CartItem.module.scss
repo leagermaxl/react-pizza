@@ -61,6 +61,9 @@
     &:active {
       transform: translateY(1px);
     }
+    &:disabled {
+      background-color: #e7e7e7;
+    }
   }
 
   .btnCount {
@@ -71,6 +74,24 @@
       svg {
         path {
           fill: #ffffff;
+        }
+      }
+    }
+    &:disabled {
+      border: 2px solid #a0a0a0;
+      cursor: default;
+      transform: none;
+      svg {
+        path {
+          fill: #a0a0a0;
+        }
+      }
+      &:hover {
+        background-color: #e7e7e7;
+        svg {
+          path {
+            fill: a0a0a0;
+          }
         }
       }
     }

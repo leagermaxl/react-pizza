@@ -74,7 +74,11 @@ const CartItem: React.FC<CartItemProps> = ({ id, title, price, imageUrl, type, s
         </div>
       </div>
       <div className={styles.cartItemCount}>
-        <button onClick={onClickMinus} className={`${styles.btnCircle} ${styles.btnCount}`}>
+        <button
+          onClick={onClickMinus}
+          className={`${styles.btnCircle} ${styles.btnCount}`}
+          disabled={count === 1}
+        >
           <svg
             width="10"
             height="2"
