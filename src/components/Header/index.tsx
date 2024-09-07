@@ -2,17 +2,27 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { CartItemType, selectCart } from '../../redux/slices/cartSlice';
+import { selectCart } from '../../redux/slices/cartSlice';
 
+import { calcCartItemsCount } from '../../utils/calcCartItemsCount';
 import Search from '../Search';
 
 import styles from './Header.module.scss';
 
 const Header: React.FC = () => {
+  const isFirstRender = React.useRef(true);
+
   const { totalPrice, items } = useSelector(selectCart);
   const location = useLocation();
-  console.log(location);
-  const countItems = items.reduce((sum: number, item: CartItemType) => sum + item.count, 0);
+
+  React.useEffect(() => {
+    if (!isFirstRender.current) {
+      localStorage.setItem('cart', JSON.stringify(items));
+    }
+    isFirstRender.current = false;
+  }, [items]);
+
+  const countItems = calcCartItemsCount(items);
   return (
     <header>
       <Link to={'/react-pizza/'}>
@@ -60,7 +70,6 @@ const Header: React.FC = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-              {/* <img src="img/cart.svg" alt="Cart" /> */}
               <span>{countItems}</span>
             </div>
           </div>

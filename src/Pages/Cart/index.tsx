@@ -10,13 +10,14 @@ import CartItem from '../../components/CartItem';
 import CartEmpty from '../../components/CartEmpty';
 
 import styles from './Cart.module.scss';
+import { calcCartItemsCount } from '../../utils/calcCartItemsCount';
 
 const Cart: React.FC = () => {
   const [openedPopup, setOpenedPopup] = React.useState(false);
 
   const dispatch = useAppDispatch();
   const { items, totalPrice } = useSelector(selectCart);
-  const countItems = items.reduce((sum: number, item: CartItemType) => sum + item.count, 0);
+  const countItems = calcCartItemsCount(items);
 
   const onClickClearCart = () => {
     dispatch(clearCart());
