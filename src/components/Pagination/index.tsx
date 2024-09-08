@@ -10,7 +10,7 @@ type PaginationProps = {
   setNewPage: (newPage: number) => void;
 };
 
-const Pagination: React.FC<PaginationProps> = ({ dataPagination, setNewPage }) => {
+export const Pagination: React.FC<PaginationProps> = ({ dataPagination, setNewPage }) => {
   return (
     <ReactPaginate
       className={styles.root}
@@ -25,5 +25,3 @@ const Pagination: React.FC<PaginationProps> = ({ dataPagination, setNewPage }) =
     />
   );
 };
-
-export default Pagination;

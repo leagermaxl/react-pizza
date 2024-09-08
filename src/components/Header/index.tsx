@@ -9,7 +9,7 @@ import Search from '../Search';
 
 import styles from './Header.module.scss';
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
   const isFirstRender = React.useRef(true);
 
   const { totalPrice, items } = useSelector(selectCart);
@@ -78,5 +78,3 @@ const Header: React.FC = () => {
     </header>
   );
 };
-
-export default Header;

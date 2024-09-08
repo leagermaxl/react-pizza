@@ -6,7 +6,7 @@ type RemovePopupProps = {
   confirm: () => void;
   deny: () => void;
 };
-const RemovePopup: React.FC<RemovePopupProps> = ({ title, confirm, deny }) => {
+export const RemovePopup: React.FC<RemovePopupProps> = ({ title, confirm, deny }) => {
   // const removePopupRef = React.useRef();
   // const isInitialMount = React.useRef(true);
 
@@ -39,5 +39,3 @@ const RemovePopup: React.FC<RemovePopupProps> = ({ title, confirm, deny }) => {
   );
 };
 // });
-
-export default RemovePopup;

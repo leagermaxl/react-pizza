@@ -18,7 +18,14 @@ type PizzaBlockProps = {
   types: number[];
 };
 
-const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl, sizes, types }) => {
+export const PizzaBlock: React.FC<PizzaBlockProps> = ({
+  id,
+  title,
+  price,
+  imageUrl,
+  sizes,
+  types,
+}) => {
   const [activeType, setActiveType] = React.useState(types[0]);
   const [activeSize, setActiveSize] = React.useState(sizes[0]);
 
@@ -102,7 +109,6 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl, siz
                 fill="#EB5A1E"
               />
             </svg>
-            {/* <img width={12} height={12} src="img/card-plus.svg" alt="Plus" /> */}
             Добавить
             {countItem && <span>{countItem.count}</span>}
           </button>
@@ -111,5 +117,3 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl, siz
     </div>
   );
 };
-
-export default PizzaBlock;

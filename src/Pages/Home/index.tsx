@@ -35,13 +35,23 @@ import { fetchDataPizzas } from '../../redux/pizza/asyncActions';
 
 import { useAppDispatch } from '../../redux/store';
 
-import Categories from '../../components/Categories';
-import PizzaBlock from '../../components/PizzaBlock';
-import Sort from '../../components/Sort';
-import Skeleton from '../../components/Skeleton';
-import Pagination from '../../components/Pagination';
-import { sortList } from '../../components/Sort';
-import PizzasDataError from '../../components/PizzasDataError';
+// import Categories from '../../components/Categories';
+// import PizzaBlock from '../../components/PizzaBlock';
+// import Sort from '../../components/Sort';
+// import Skeleton from '../../components/Skeleton';
+// import Pagination from '../../components/Pagination';
+// import { sortList } from '../../components/Sort';
+// import PizzasDataError from '../../components/PizzasDataError';
+
+import {
+  Categories,
+  PizzaBlock,
+  Sort,
+  Skeleton,
+  Pagination,
+  PizzasDataError,
+  sortList,
+} from '../../components';
 
 import styles from './Home.module.scss';
 

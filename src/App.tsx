@@ -6,12 +6,7 @@ import Cart from './Pages/Cart';
 import NotFound from './Pages/NotFound';
 import Pizza from './Pages/Pizza';
 
-// export const AppContext = React.createContext();
-
 function App() {
-  // const [searchValue, setSearchValue] = React.useState('');
-  // console.log(searchValue);
-
   return (
     <Routes>
       <Route path="react-pizza/" element={<MainLayout />}>

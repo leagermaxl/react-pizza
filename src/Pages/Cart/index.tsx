@@ -8,9 +8,7 @@ import { clearCart } from '../../redux/cart/slice';
 import { selectCart } from '../../redux/cart/selectors';
 import { CartItemType } from '../../redux/cart/types';
 
-import RemovePopup from '../../components/RemovePopup';
-import CartItem from '../../components/CartItem';
-import CartEmpty from '../../components/CartEmpty';
+import { RemovePopup, CartItem, CartEmpty } from '../../components';
 
 import styles from './Cart.module.scss';
 import { calcCartItemsCount } from '../../utils/calcCartItemsCount';

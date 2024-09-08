@@ -3,7 +3,7 @@ import React from 'react';
 import { addItems, minusItem, removeItems } from '../../redux/cart/slice';
 import { useAppDispatch } from '../../redux/store';
 
-import RemovePopup from '../RemovePopup';
+import { RemovePopup } from '../';
 
 import styles from './CartItem.module.scss';
 
@@ -17,7 +17,15 @@ type CartItemProps = {
   count: number;
 };
 
-const CartItem: React.FC<CartItemProps> = ({ id, title, price, imageUrl, type, size, count }) => {
+export const CartItem: React.FC<CartItemProps> = ({
+  id,
+  title,
+  price,
+  imageUrl,
+  type,
+  size,
+  count,
+}) => {
   const [openedPopup, setOpenedPopup] = React.useState(false);
 
   const dispatch = useAppDispatch();
@@ -91,7 +99,6 @@ const CartItem: React.FC<CartItemProps> = ({ id, title, price, imageUrl, type, s
               fill="#FE5F1E"
             />
           </svg>
-          {/* <img src="img/minus.svg" alt="Count minus" /> */}
         </button>
         <span>{count}</span>
         <button onClick={onClickPlus} className={`${styles.btnCircle} ${styles.btnCount}`}>
@@ -107,7 +114,6 @@ const CartItem: React.FC<CartItemProps> = ({ id, title, price, imageUrl, type, s
               fill="#EB5A1E"
             />
           </svg>
-          {/* <img src="img/plus.svg" alt="Count plus" /> */}
         </button>
       </div>
       <span>{price * count} ₽</span>
@@ -127,7 +133,6 @@ const CartItem: React.FC<CartItemProps> = ({ id, title, price, imageUrl, type, s
             fill="#D0D0D0"
           />
         </svg>
-        {/* <img height={11} width={11} src="img/crest.svg" alt="Cart remove" /> */}
       </div>
       {openedPopup && (
         <RemovePopup
@@ -140,5 +145,3 @@ const CartItem: React.FC<CartItemProps> = ({ id, title, price, imageUrl, type, s
     </div>
   );
 };
-
-export default CartItem;
