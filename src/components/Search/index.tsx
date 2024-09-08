@@ -1,6 +1,8 @@
 import React from 'react';
 import debounce from 'lodash.debounce';
+import { useSelector } from 'react-redux';
 
+import { selectFilter } from '../../redux/filter/selectors';
 import { useAppDispatch } from '../../redux/store';
 import { setSearchValue } from '../../redux/filter/slice';
 
@@ -9,7 +11,8 @@ import styles from './Search.module.scss';
 export const Search: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const [value, setValue] = React.useState('');
+  const { searchValue } = useSelector(selectFilter);
+  const [value, setValue] = React.useState(searchValue);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   // eslint-disable-next-line
@@ -19,6 +22,10 @@ export const Search: React.FC = () => {
     }, 600),
     []
   );
+
+  React.useEffect(() => {
+    setValue(searchValue);
+  }, [searchValue]);
 
   const OnChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
@@ -31,6 +38,7 @@ export const Search: React.FC = () => {
     inputRef.current?.focus();
   };
 
+  console.log(`value=${value}, searchValue=${searchValue}`);
   return (
     <div className={styles.root}>
       <svg

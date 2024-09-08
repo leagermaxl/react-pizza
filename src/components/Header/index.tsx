@@ -2,7 +2,9 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import { useAppDispatch } from '../../redux/store';
 import { selectCart } from '../../redux/cart/selectors';
+import { setSearchValue } from '../../redux/filter/slice';
 
 import { calcCartItemsCount } from '../../utils/calcCartItemsCount';
 import Search from '../Search';
@@ -14,6 +16,7 @@ export const Header: React.FC = () => {
 
   const { totalPrice, items } = useSelector(selectCart);
   const location = useLocation();
+  const dispatch = useAppDispatch();
 
   React.useEffect(() => {
     if (!isFirstRender.current) {
@@ -22,12 +25,16 @@ export const Header: React.FC = () => {
     isFirstRender.current = false;
   }, [items]);
 
+  const onClickLink = () => {
+    dispatch(setSearchValue(''));
+  };
+
   const countItems = calcCartItemsCount(items);
   return (
     <header>
-      <Link to={'/react-pizza/'}>
+      <Link to={'/react-pizza/'} onClick={onClickLink}>
         <div className={styles.headerLeft}>
-          <img src="img/logo.png" alt="Logo" />
+          <img src="/react-pizza/img/logo.png" alt="Logo" />
           <div className={styles.headerLeftInfo}>
             <h2>REACT PIZZA</h2>
             <p>самая вкусная пицца во вселенной</p>

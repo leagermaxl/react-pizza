@@ -3,23 +3,6 @@ import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-// import {
-//   setCategoryId,
-//   setSortObj,
-//   setSortOrder,
-//   setDataPagination,
-//   setFilters,
-//   selectFilter,
-//   SortType,
-// } from '../../redux/slices/filterSlice';
-// import {
-//   fetchDataPizzas,
-//   Pizza,
-//   selectPizzas,
-//   SortPizzaParams,
-//   Status,
-// } from '../../redux/slices/pizzaSlice';
-
 import { selectFilter } from '../../redux/filter/selectors';
 import { selectPizzas } from '../../redux/pizza/selectors';
 import { Pizza, SortPizzaParams, Status } from '../../redux/pizza/types';
@@ -34,14 +17,6 @@ import {
 import { fetchDataPizzas } from '../../redux/pizza/asyncActions';
 
 import { useAppDispatch } from '../../redux/store';
-
-// import Categories from '../../components/Categories';
-// import PizzaBlock from '../../components/PizzaBlock';
-// import Sort from '../../components/Sort';
-// import Skeleton from '../../components/Skeleton';
-// import Pagination from '../../components/Pagination';
-// import { sortList } from '../../components/Sort';
-// import PizzasDataError from '../../components/PizzasDataError';
 
 import {
   Categories,
@@ -151,7 +126,6 @@ const Home: React.FC = () => {
 
   const pizzas = itemsPizzas.map((item: Pizza) => <PizzaBlock key={item.id} {...item} />);
 
-  console.log(status);
   return (
     <>
       <div className={styles.contentTop}>
@@ -163,11 +137,11 @@ const Home: React.FC = () => {
           onClickSortOrder={onChangeSortOrder}
         />
       </div>
+      <h1>{`${searchValue ? `Поиск по «${searchValue}»` : 'Все пиццы'}`}</h1>
       {status === Status.ERROR ? (
         <PizzasDataError />
       ) : (
         <>
-          <h1>Все пиццы</h1>
           <div className={styles.pizzas}>{status === Status.LOADING ? skeleton : pizzas}</div>
           {dataPagination && (
             <Pagination dataPagination={dataPagination} setNewPage={onChangePage} />
