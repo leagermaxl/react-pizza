@@ -1,10 +1,24 @@
 import { Route, Routes } from 'react-router-dom';
+import Loadable from 'react-loadable';
 
 import MainLayout from './layouts/MainLayout';
 import Home from './Pages/Home';
-import Cart from './Pages/Cart';
-import NotFound from './Pages/NotFound';
-import Pizza from './Pages/Pizza';
+import { Loader } from './components';
+
+const Cart = Loadable({
+  loader: () => import('./Pages/Cart'),
+  loading: () => <Loader />,
+});
+
+const Pizza = Loadable({
+  loader: () => import('./Pages/Pizza'),
+  loading: () => <Loader />,
+});
+
+const NotFound = Loadable({
+  loader: () => import('./Pages/NotFound'),
+  loading: () => <Loader />,
+});
 
 function App() {
   return (

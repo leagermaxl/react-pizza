@@ -1,0 +1,13 @@
+.loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vw - 700px);
+
+  p {
+    margin-top: 25px;
+    font-size: 20px;
+    font-weight: 500;
+  }
+}
