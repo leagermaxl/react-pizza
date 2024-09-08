@@ -40,10 +40,13 @@ const Home: React.FC = () => {
   const isParam = React.useRef(false);
   const isFirstRender = React.useRef(true);
 
+  const windowWidth = document.documentElement.clientWidth;
+
   const category = `${categoryId > 0 ? `&category=${categoryId}` : ''}`;
   const sort = `&sortBy=${sortOrder ? '' : '-'}${sortObj.sortProperty}`;
   const search = `${searchValue === '' ? '' : `&title=*${searchValue}*`}`;
-  const page = `&page=${dataPagination?.current_page}&limit=5`;
+  const limit = windowWidth <= 1280 ? 2 : windowWidth <= 1670 ? 3 : windowWidth <= 2020 ? 4 : 5;
+  const page = `&page=${dataPagination?.current_page}&limit=${limit}`;
 
   React.useEffect(() => {
     if (window.location.search) {

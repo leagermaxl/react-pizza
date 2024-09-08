@@ -80,4 +80,8 @@ header {
       background-color: #f24701;
     }
   }
+  @media (max-width: 1100px) {
+    flex-direction: column;
+    align-items: center;
+  }
 }

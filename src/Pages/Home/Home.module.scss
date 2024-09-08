@@ -2,11 +2,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  @media (max-width: 810px) {
-    flex-direction: column;
-    align-items: end;
-  }
 }
 
 .pizzas {
@@ -16,19 +11,16 @@
   grid-column-gap: 25px;
   grid-row-gap: 60px;
 
-  @media (max-width: 2200px) {
-    grid-template-columns: repeat(5, 1fr);
-  }
-  @media (max-width: 1770px) {
+  @media (max-width: 2020px) {
     grid-template-columns: repeat(4, 1fr);
   }
-  @media (max-width: 1400px) {
+  @media (max-width: 1670px) {
     grid-template-columns: repeat(3, 1fr);
   }
-  @media (max-width: 1180px) {
+  @media (max-width: 1280px) {
     grid-template-columns: repeat(2, 1fr);
   }
-  @media (max-width: 810px) {
+  @media (max-width: 870px) {
     grid-template-columns: repeat(1, 1fr);
     flex-direction: column;
   }
