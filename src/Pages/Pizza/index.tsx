@@ -1,27 +1,40 @@
-import axios from 'axios';
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+import { useAppDispatch } from '../../redux/store';
+import { Status } from '../../redux/pizza/types';
+import { selectPizzas } from '../../redux/pizza/selectors';
+import { fetchFullPizza } from '../../redux/pizza/asyncActions';
+
+import { FullPizza, Loader } from '../../components';
+import NotFound from '../NotFound';
+
+import styles from './Pizza.module.scss';
 
 const Pizza: React.FC = () => {
-  const [pizza, setPizza] = React.useState<{ imageUrl: string; title: string; price: number }>();
+  const dispatch = useAppDispatch();
+  const { itemPizza, status } = useSelector(selectPizzas);
+
   const params = useParams();
 
   React.useEffect(() => {
-    (async () => {
-      const { data } = await axios.get(`https://683883f38da35f95.mokky.dev/items/${params.id}`);
-      setPizza(data);
-    })();
-  }, [params.id]);
-
-  if (pizza === undefined) {
-    return <h2>Загрузка...</h2>;
-  }
+    if (params.id) {
+      dispatch(fetchFullPizza(params.id));
+    }
+  }, [params.id, dispatch]);
 
   return (
     <div>
-      <img src={pizza.imageUrl} alt="" />
-      <h2>{pizza.title}</h2>
-      <p>{pizza.price}</p>
+      {status === Status.ERROR ? (
+        <NotFound />
+      ) : (
+        <>
+          <div className={styles.pizza}>
+            {status === Status.LOADING ? <Loader /> : <FullPizza {...itemPizza} />}
+          </div>
+        </>
+      )}
     </div>
   );
 };
