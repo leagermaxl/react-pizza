@@ -4,15 +4,17 @@ import { useSelector } from 'react-redux';
 
 import { useAppDispatch } from '../../redux/store';
 import { selectCartItems } from '../../redux/cart/selectors';
-import { CartItemType } from '../../redux/cart/types';
 import { addItems } from '../../redux/cart/slice';
+
+import { PizzaOptions } from '../';
+import { calcCount } from '../../utils/calcCount';
 
 import styles from './PizzaBlock.module.scss';
 
 type PizzaBlockProps = {
   id: number;
   title: string;
-  price: number;
+  price: number[];
   imageUrl: string;
   sizes: number[];
   types: number[];
@@ -28,6 +30,7 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
 }) => {
   const [activeType, setActiveType] = React.useState(types[0]);
   const [activeSize, setActiveSize] = React.useState(sizes[0]);
+  const [activePrice, setActivePrice] = React.useState(price[0]);
 
   const typeArray = ['тонкое', 'традиционное'];
   const sizeArray = [26, 30, 40];
@@ -35,13 +38,27 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
   const dispatch = useAppDispatch();
   const cartItems = useSelector(selectCartItems);
 
-  const countItem = cartItems.find((item: CartItemType) => item.id === id);
+  const countItem = calcCount(cartItems, id);
+
+  const PizzaOptionsData = {
+    sizes,
+    types,
+    price,
+    typeArray,
+    sizeArray,
+    activeType,
+    activeSize,
+    activePrice,
+    setActiveSize,
+    setActiveType,
+    setActivePrice,
+  };
 
   const addToCart = () => {
     const itemObject = {
       id,
       title,
-      price,
+      price: activePrice,
       imageUrl,
       size: activeSize,
       type: typeArray[activeType],
@@ -57,42 +74,9 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
           <img width={260} height={260} src={imageUrl} alt="Pizza" />
         </Link>
         <h2>{title}</h2>
-        <div className={styles.options}>
-          <ul>
-            {typeArray.map((typeItem, index) => {
-              const typeIncludes = types.includes(index);
-              return (
-                <li
-                  key={index}
-                  onClick={typeIncludes ? () => setActiveType(index) : () => {}}
-                  className={`${activeType === index ? styles.active : ''} ${
-                    typeIncludes ? '' : styles.disabled
-                  }`}
-                >
-                  {typeItem}
-                </li>
-              );
-            })}
-          </ul>
-          <ul>
-            {sizeArray.map((sizeItem) => {
-              const sizeIncludes = sizes.includes(sizeItem);
-              return (
-                <li
-                  key={sizeItem}
-                  onClick={sizeIncludes ? () => setActiveSize(sizeItem) : () => {}}
-                  className={`${activeSize === sizeItem ? styles.active : ''} ${
-                    sizeIncludes ? '' : styles.disabled
-                  }`}
-                >
-                  {sizeItem} см.
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        <PizzaOptions {...PizzaOptionsData} />
         <div className={styles.pizzaBlockInfo}>
-          <span>от {price} ₽</span>
+          <span>от {activePrice} ₴</span>
           <button
             onClick={addToCart}
             className={`${styles.button} ${countItem ? styles.buttonAdded : ''}`}
@@ -110,7 +94,7 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
               />
             </svg>
             Добавить
-            {countItem && <span>{countItem.count}</span>}
+            {countItem !== 0 && <span>{countItem}</span>}
           </button>
         </div>
       </div>
