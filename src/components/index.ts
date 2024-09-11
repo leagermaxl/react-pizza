@@ -10,3 +10,4 @@ export * from './Search';
 export * from './Skeleton';
 export * from './Sort';
 export * from './Loader';
+export * from './CaloriePopup';
