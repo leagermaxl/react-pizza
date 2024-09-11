@@ -2,18 +2,21 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import { useAppDispatch } from '../../redux/store';
 import { selectCart } from '../../redux/cart/selectors';
+import { setSearchValue } from '../../redux/filter/slice';
 
 import { calcCartItemsCount } from '../../utils/calcCartItemsCount';
-import Search from '../Search';
+import { Search } from '../';
 
 import styles from './Header.module.scss';
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
   const isFirstRender = React.useRef(true);
 
   const { totalPrice, items } = useSelector(selectCart);
   const location = useLocation();
+  const dispatch = useAppDispatch();
 
   React.useEffect(() => {
     if (!isFirstRender.current) {
@@ -22,23 +25,27 @@ const Header: React.FC = () => {
     isFirstRender.current = false;
   }, [items]);
 
+  const onClickLink = () => {
+    dispatch(setSearchValue(''));
+  };
+
   const countItems = calcCartItemsCount(items);
   return (
     <header>
-      <Link to={'/react-pizza/'}>
+      <Link to={'/react-pizza/'} onClick={onClickLink}>
         <div className={styles.headerLeft}>
-          <img src="img/logo.png" alt="Logo" />
+          <img src="/react-pizza/img/logo.png" alt="Logo" />
           <div className={styles.headerLeftInfo}>
             <h2>REACT PIZZA</h2>
             <p>самая вкусная пицца во вселенной</p>
           </div>
         </div>
       </Link>
-      {location.pathname !== '/react-pizza/cart' && <Search />}
+      {location.pathname === '/react-pizza/' && <Search />}
       <Link to={'cart'}>
         <div className={styles.headerRight}>
           <div className={styles.headerRightInfo}>
-            <span className={styles.spanPrice}>{totalPrice} ₽</span>
+            <span className={styles.spanPrice}>{totalPrice} ₴</span>
             <div className={styles.stick}></div>
             <div className={styles.cartBlock}>
               <svg
@@ -78,5 +85,3 @@ const Header: React.FC = () => {
     </header>
   );
 };
-
-export default Header;

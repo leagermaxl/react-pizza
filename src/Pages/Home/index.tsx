@@ -3,23 +3,6 @@ import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-// import {
-//   setCategoryId,
-//   setSortObj,
-//   setSortOrder,
-//   setDataPagination,
-//   setFilters,
-//   selectFilter,
-//   SortType,
-// } from '../../redux/slices/filterSlice';
-// import {
-//   fetchDataPizzas,
-//   Pizza,
-//   selectPizzas,
-//   SortPizzaParams,
-//   Status,
-// } from '../../redux/slices/pizzaSlice';
-
 import { selectFilter } from '../../redux/filter/selectors';
 import { selectPizzas } from '../../redux/pizza/selectors';
 import { Pizza, SortPizzaParams, Status } from '../../redux/pizza/types';
@@ -35,13 +18,15 @@ import { fetchDataPizzas } from '../../redux/pizza/asyncActions';
 
 import { useAppDispatch } from '../../redux/store';
 
-import Categories from '../../components/Categories';
-import PizzaBlock from '../../components/PizzaBlock';
-import Sort from '../../components/Sort';
-import Skeleton from '../../components/Skeleton';
-import Pagination from '../../components/Pagination';
-import { sortList } from '../../components/Sort';
-import PizzasDataError from '../../components/PizzasDataError';
+import {
+  Categories,
+  PizzaBlock,
+  Sort,
+  Skeleton,
+  Pagination,
+  PizzasDataError,
+  sortList,
+} from '../../components';
 
 import styles from './Home.module.scss';
 
@@ -55,10 +40,22 @@ const Home: React.FC = () => {
   const isParam = React.useRef(false);
   const isFirstRender = React.useRef(true);
 
+  const windowWidth = document.documentElement.clientWidth;
+
   const category = `${categoryId > 0 ? `&category=${categoryId}` : ''}`;
   const sort = `&sortBy=${sortOrder ? '' : '-'}${sortObj.sortProperty}`;
   const search = `${searchValue === '' ? '' : `&title=*${searchValue}*`}`;
-  const page = `&page=${dataPagination?.current_page}&limit=5`;
+  const limit =
+    windowWidth <= 870
+      ? 3
+      : windowWidth <= 1280
+      ? 2
+      : windowWidth <= 1670
+      ? 3
+      : windowWidth <= 2020
+      ? 4
+      : 5;
+  const page = `&page=${dataPagination?.current_page}&limit=${limit}`;
 
   React.useEffect(() => {
     if (window.location.search) {
@@ -89,7 +86,6 @@ const Home: React.FC = () => {
       dispatch(fetchDataPizzas({ category, sort, page, search }));
     }
     isParam.current = false;
-    // isFirstRender.current = true;
   }, [category, sort, search, page, dispatch]);
 
   React.useEffect(() => {
@@ -137,11 +133,10 @@ const Home: React.FC = () => {
     [dispatch]
   );
 
-  const skeleton = [...new Array(5)].map((_, index) => <Skeleton key={index} />);
+  const skeleton = [...new Array(limit)].map((_, index) => <Skeleton key={index} />);
 
   const pizzas = itemsPizzas.map((item: Pizza) => <PizzaBlock key={item.id} {...item} />);
 
-  console.log(status);
   return (
     <>
       <div className={styles.contentTop}>
@@ -153,11 +148,11 @@ const Home: React.FC = () => {
           onClickSortOrder={onChangeSortOrder}
         />
       </div>
+      <h1>{`${searchValue ? `Поиск по «${searchValue}»` : 'Все пиццы'}`}</h1>
       {status === Status.ERROR ? (
         <PizzasDataError />
       ) : (
         <>
-          <h1>Все пиццы</h1>
           <div className={styles.pizzas}>{status === Status.LOADING ? skeleton : pizzas}</div>
           {dataPagination && (
             <Pagination dataPagination={dataPagination} setNewPage={onChangePage} />

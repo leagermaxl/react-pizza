@@ -17,7 +17,7 @@ export const sortList: SortType[] = [
   { name: 'алфавиту', sortProperty: SortProperty.TITLE },
 ];
 
-const Sort: React.FC<sortProps> = React.memo(
+export const Sort: React.FC<sortProps> = React.memo(
   ({ sortObj, onClickSortObj, sortOrder, onClickSortOrder }) => {
     const [opened, setOpened] = React.useState(false);
 
@@ -81,4 +81,3 @@ const Sort: React.FC<sortProps> = React.memo(
     );
   }
 );
-export default Sort;

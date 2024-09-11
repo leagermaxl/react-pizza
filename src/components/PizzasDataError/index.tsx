@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './PizzasDataError.module.scss';
 
-const PizzasDataError: React.FC = () => {
+export const PizzasDataError: React.FC = () => {
   return (
     <div className={styles.root}>
       <h2>Произошла ошибка 😕</h2>
@@ -10,4 +10,3 @@ const PizzasDataError: React.FC = () => {
     </div>
   );
 };
-export default PizzasDataError;

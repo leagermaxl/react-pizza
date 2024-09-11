@@ -21,7 +21,7 @@
         }
       }
     }
-    span {
+    .btnClearCart {
       display: flex;
       cursor: pointer;
 
@@ -42,6 +42,15 @@
             stroke: #232323;
           }
         }
+      }
+    }
+
+    .cartTopRemovePopup {
+      position: absolute;
+      .cartTopRemovePopupBlock {
+        position: absolute;
+        right: -130px;
+        top: 30px;
       }
     }
   }

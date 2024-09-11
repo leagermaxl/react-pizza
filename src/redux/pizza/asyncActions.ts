@@ -11,8 +11,15 @@ export const fetchDataPizzas = createAsyncThunk<Pizza[], SortPizzaParams>(
     const { data } = await axios.get<DataAxios>(
       `https://683883f38da35f95.mokky.dev/items?${category}${sort}${page}${search}`
     );
-    console.log(data);
     thunkAPI.dispatch(setDataPagination(data.meta));
     return data.items;
+  }
+);
+
+export const fetchFullPizza = createAsyncThunk<Pizza, string>(
+  'pizza/fetchFullPizza',
+  async (props) => {
+    const { data } = await axios.get<Pizza>(`https://683883f38da35f95.mokky.dev/items/${props}`);
+    return data;
   }
 );

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import styles from './CartEmpty.module.scss';
 
-const CartEmpty = () => {
+export const CartEmpty = () => {
   return (
     <div className={styles.cartEmpty}>
       <h2>Корзина пустая 😕</h2>
@@ -16,4 +16,3 @@ const CartEmpty = () => {
     </div>
   );
 };
-export default CartEmpty;

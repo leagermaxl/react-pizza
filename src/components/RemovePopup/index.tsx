@@ -1,29 +1,11 @@
 import styles from './RemovePopup.module.scss';
 
-// const RemovePopup = forwardRef(function RemovePopup({ title, confirm, deny }, ref) {
 type RemovePopupProps = {
   title: string;
   confirm: () => void;
   deny: () => void;
 };
-const RemovePopup: React.FC<RemovePopupProps> = ({ title, confirm, deny }) => {
-  // const removePopupRef = React.useRef();
-  // const isInitialMount = React.useRef(true);
-
-  // React.useEffect(() => {
-  //   if (isInitialMount.current) {
-  //     isInitialMount.current = false;
-  //   } else {
-  //     const handleClickOutsideRemovePopup = (event) => {
-  //       if (!event.composedPath().includes(removePopupRef.current)) {
-  //         console.log(event.composedPath());
-  //         setOpenedPopup(false);
-  //       }
-  //     };
-  //     document.body.addEventListener('click', handleClickOutsideRemovePopup);
-  //   }
-  // }, []);
-
+export const RemovePopup: React.FC<RemovePopupProps> = ({ title, confirm, deny }) => {
   return (
     <div className={styles.removePopup}>
       <span>{title}</span>
@@ -38,6 +20,3 @@ const RemovePopup: React.FC<RemovePopupProps> = ({ title, confirm, deny }) => {
     </div>
   );
 };
-// });
-
-export default RemovePopup;

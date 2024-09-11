@@ -3,7 +3,7 @@ import React from 'react';
 import { addItems, minusItem, removeItems } from '../../redux/cart/slice';
 import { useAppDispatch } from '../../redux/store';
 
-import RemovePopup from '../RemovePopup';
+import { RemovePopup } from '../';
 
 import styles from './CartItem.module.scss';
 
@@ -17,36 +17,17 @@ type CartItemProps = {
   count: number;
 };
 
-const CartItem: React.FC<CartItemProps> = ({ id, title, price, imageUrl, type, size, count }) => {
-  const [openedPopup, setOpenedPopup] = React.useState(false);
-
+export const CartItem: React.FC<CartItemProps> = ({
+  id,
+  title,
+  price,
+  imageUrl,
+  type,
+  size,
+  count,
+}) => {
   const dispatch = useAppDispatch();
-
-  // const removePopupRef = React.useRef(null);
-  // const clickedRef = React.useRef(true);
-
-  // React.useEffect(() => {
-  //   console.log('useEffect');
-
-  //   const handleClickOutsideCartItem = (event) => {
-  //     if (!event.composedPath().includes(removePopupRef.current)) {
-  //       if (clickedRef.current) {
-  //         clickedRef.current = false;
-  //       } else {
-  //         console.log(event.composedPath());
-  //         setOpenedPopup(false);
-  //       }
-  //     }
-  //     console.log(removePopupRef.current);
-  //     console.log(event.composedPath());
-  //   };
-
-  //   document.body.addEventListener('click', handleClickOutsideCartItem);
-  //   // console.log(removePopupRef.current);
-  //   return () => {
-  //     document.body.removeEventListener('click', handleClickOutsideCartItem);
-  //   };
-  // }, [removePopupRef]);
+  const [openedRemovePopup, setOpenedRemovePopup] = React.useState(false);
 
   const onClickPlus = () => {
     const itemObject = { id, title, price, imageUrl, type, size, count };
@@ -59,7 +40,7 @@ const CartItem: React.FC<CartItemProps> = ({ id, title, price, imageUrl, type, s
 
   const onClickRemoveItems = () => {
     dispatch(removeItems(id));
-    setOpenedPopup(false);
+    setOpenedRemovePopup(false);
   };
 
   return (
@@ -91,7 +72,6 @@ const CartItem: React.FC<CartItemProps> = ({ id, title, price, imageUrl, type, s
               fill="#FE5F1E"
             />
           </svg>
-          {/* <img src="img/minus.svg" alt="Count minus" /> */}
         </button>
         <span>{count}</span>
         <button onClick={onClickPlus} className={`${styles.btnCircle} ${styles.btnCount}`}>
@@ -107,38 +87,37 @@ const CartItem: React.FC<CartItemProps> = ({ id, title, price, imageUrl, type, s
               fill="#EB5A1E"
             />
           </svg>
-          {/* <img src="img/plus.svg" alt="Count plus" /> */}
         </button>
       </div>
-      <span>{price * count} ₽</span>
-      <div
-        onClick={() => setOpenedPopup(true)}
-        className={`${styles.btnCircle} ${styles.btnRemove}`}
-      >
-        <svg
-          width="10"
-          height="9"
-          viewBox="0 0 10 9"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+      <span>{price * count} ₴</span>
+      <div>
+        <div
+          onClick={() => setOpenedRemovePopup(true)}
+          className={`${styles.btnCircle} ${styles.btnRemove}`}
         >
-          <path
-            d="M8.74791 6.95572L6.49931 4.70712L8.74791 2.45852C9.16184 2.04459 9.16184 1.37338 8.74791 0.959454C8.33398 0.545525 7.66277 0.545525 7.24884 0.959454L5.00024 3.20805L2.75164 0.959454C2.33771 0.545525 1.66651 0.545525 1.25258 0.959454C0.838648 1.37338 0.838648 2.04459 1.25258 2.45852L3.50118 4.70712L1.25258 6.95572C0.838649 7.36965 0.838649 8.04086 1.25258 8.45479C1.66651 8.86872 2.33772 8.86872 2.75164 8.45479L5.00024 6.20619L7.24884 8.45479C7.66277 8.86872 8.33398 8.86872 8.74791 8.45479C9.16184 8.04086 9.16184 7.36965 8.74791 6.95572Z"
-            fill="#D0D0D0"
-          />
-        </svg>
-        {/* <img height={11} width={11} src="img/crest.svg" alt="Cart remove" /> */}
+          <svg
+            width="10"
+            height="9"
+            viewBox="0 0 10 9"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M8.74791 6.95572L6.49931 4.70712L8.74791 2.45852C9.16184 2.04459 9.16184 1.37338 8.74791 0.959454C8.33398 0.545525 7.66277 0.545525 7.24884 0.959454L5.00024 3.20805L2.75164 0.959454C2.33771 0.545525 1.66651 0.545525 1.25258 0.959454C0.838648 1.37338 0.838648 2.04459 1.25258 2.45852L3.50118 4.70712L1.25258 6.95572C0.838649 7.36965 0.838649 8.04086 1.25258 8.45479C1.66651 8.86872 2.33772 8.86872 2.75164 8.45479L5.00024 6.20619L7.24884 8.45479C7.66277 8.86872 8.33398 8.86872 8.74791 8.45479C9.16184 8.04086 9.16184 7.36965 8.74791 6.95572Z"
+              fill="#D0D0D0"
+            />
+          </svg>
+        </div>
+        <div className={styles.btnRemovePopup}>
+          {openedRemovePopup && (
+            <RemovePopup
+              title={'Действительно хотите удалить пиццу из корзины?'}
+              confirm={() => onClickRemoveItems()}
+              deny={() => setOpenedRemovePopup(false)}
+            />
+          )}
+        </div>
       </div>
-      {openedPopup && (
-        <RemovePopup
-          // ref={removePopupRef}
-          title={'Действительно хотите удалить пиццу из корзины?'}
-          confirm={onClickRemoveItems}
-          deny={() => setOpenedPopup(false)}
-        />
-      )}
     </div>
   );
 };
-
-export default CartItem;
