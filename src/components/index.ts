@@ -11,3 +11,4 @@ export * from './Skeleton';
 export * from './Sort';
 export * from './Loader';
 export * from './CaloriePopup';
+export * from './PizzaOptions';
