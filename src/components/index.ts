@@ -12,3 +12,4 @@ export * from './Sort';
 export * from './Loader';
 export * from './CaloriePopup';
 export * from './PizzaOptions';
+export * from './FullPizza';
