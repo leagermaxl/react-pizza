@@ -38,7 +38,6 @@ export const Search: React.FC = () => {
     inputRef.current?.focus();
   };
 
-  console.log(`value=${value}, searchValue=${searchValue}`);
   return (
     <div className={styles.root}>
       <svg

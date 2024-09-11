@@ -7,7 +7,7 @@ import { selectCart } from '../../redux/cart/selectors';
 import { setSearchValue } from '../../redux/filter/slice';
 
 import { calcCartItemsCount } from '../../utils/calcCartItemsCount';
-import Search from '../Search';
+import { Search } from '../';
 
 import styles from './Header.module.scss';
 
@@ -41,11 +41,11 @@ export const Header: React.FC = () => {
           </div>
         </div>
       </Link>
-      {location.pathname !== '/react-pizza/cart' && <Search />}
+      {location.pathname === '/react-pizza/' && <Search />}
       <Link to={'cart'}>
         <div className={styles.headerRight}>
           <div className={styles.headerRightInfo}>
-            <span className={styles.spanPrice}>{totalPrice} ₽</span>
+            <span className={styles.spanPrice}>{totalPrice} ₴</span>
             <div className={styles.stick}></div>
             <div className={styles.cartBlock}>
               <svg
