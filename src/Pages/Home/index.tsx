@@ -45,7 +45,16 @@ const Home: React.FC = () => {
   const category = `${categoryId > 0 ? `&category=${categoryId}` : ''}`;
   const sort = `&sortBy=${sortOrder ? '' : '-'}${sortObj.sortProperty}`;
   const search = `${searchValue === '' ? '' : `&title=*${searchValue}*`}`;
-  const limit = windowWidth <= 1280 ? 2 : windowWidth <= 1670 ? 3 : windowWidth <= 2020 ? 4 : 5;
+  const limit =
+    windowWidth <= 870
+      ? 3
+      : windowWidth <= 1280
+      ? 2
+      : windowWidth <= 1670
+      ? 3
+      : windowWidth <= 2020
+      ? 4
+      : 5;
   const page = `&page=${dataPagination?.current_page}&limit=${limit}`;
 
   React.useEffect(() => {
@@ -77,7 +86,6 @@ const Home: React.FC = () => {
       dispatch(fetchDataPizzas({ category, sort, page, search }));
     }
     isParam.current = false;
-    // isFirstRender.current = true;
   }, [category, sort, search, page, dispatch]);
 
   React.useEffect(() => {
@@ -125,7 +133,7 @@ const Home: React.FC = () => {
     [dispatch]
   );
 
-  const skeleton = [...new Array(5)].map((_, index) => <Skeleton key={index} />);
+  const skeleton = [...new Array(limit)].map((_, index) => <Skeleton key={index} />);
 
   const pizzas = itemsPizzas.map((item: Pizza) => <PizzaBlock key={item.id} {...item} />);
 
