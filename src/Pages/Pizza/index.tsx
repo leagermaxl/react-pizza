@@ -7,8 +7,7 @@ import { Status } from '../../redux/pizza/types';
 import { selectPizzas } from '../../redux/pizza/selectors';
 import { fetchFullPizza } from '../../redux/pizza/asyncActions';
 
-import { FullPizza, Loader } from '../../components';
-import NotFound from '../NotFound';
+import { FullPizza, Loader, PizzasDataError } from '../../components';
 
 import styles from './Pizza.module.scss';
 
@@ -27,7 +26,7 @@ const Pizza: React.FC = () => {
   return (
     <div>
       {status === Status.ERROR ? (
-        <NotFound />
+        <PizzasDataError />
       ) : (
         <>
           <div className={styles.pizza}>
