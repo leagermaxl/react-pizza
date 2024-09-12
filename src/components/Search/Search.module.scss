@@ -28,26 +28,10 @@
     &:focus {
       width: 700px;
       border: 1px solid #636363;
-
-      @media (max-width: 1600px) {
-        width: 600px;
-      }
-      @media (max-width: 1500px) {
-        width: 550px;
-      }
-      @media (max-width: 1400px) {
-        width: 400px;
-      }
-      @media (max-width: 1280px) {
-        width: 300px;
-      }
     }
-    @media (max-width: 1400px) {
-      width: 400px;
-    }
-    @media (max-width: 1280px) {
-      width: 300px;
-    }
+  }
+  .searchNoEmpty {
+    width: 700px;
   }
   .close {
     height: 25px;
@@ -58,6 +42,48 @@
     cursor: pointer;
     polygon {
       fill: #aaaaaa;
+    }
+  }
+  @media (max-width: 1600px) {
+    .search {
+      &:focus {
+        width: 600px;
+      }
+    }
+    .searchNoEmpty {
+      width: 600px;
+    }
+  }
+  @media (max-width: 1500px) {
+    .search {
+      &:focus {
+        width: 550px;
+      }
+    }
+    .searchNoEmpty {
+      width: 550px;
+    }
+  }
+  @media (max-width: 1400px) {
+    .search {
+      width: 400px;
+      &:focus {
+        width: 400px;
+      }
+    }
+    .searchNoEmpty {
+      width: 400px;
+    }
+  }
+  @media (max-width: 1280px) {
+    .search {
+      width: 300px;
+      &:focus {
+        width: 300px;
+      }
+    }
+    .searchNoEmpty {
+      width: 300px;
     }
   }
   @media (max-width: 1100px) {
