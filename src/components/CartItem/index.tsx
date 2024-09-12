@@ -35,11 +35,11 @@ export const CartItem: React.FC<CartItemProps> = ({
   };
 
   const onClickMinus = () => {
-    dispatch(minusItem(id));
+    dispatch(minusItem({ id, price }));
   };
 
   const onClickRemoveItems = () => {
-    dispatch(removeItems(id));
+    dispatch(removeItems({ id, price }));
     setOpenedRemovePopup(false);
   };
 

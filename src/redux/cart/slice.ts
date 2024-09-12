@@ -26,15 +26,19 @@ const cartSlice = createSlice({
       }
       state.totalPrice = calcCartTotalPrice(state.items);
     },
-    minusItem(state, action: PayloadAction<number>) {
-      const findItem = state.items.find((item) => item.id === action.payload);
+    minusItem(state, action: PayloadAction<Record<string, number>>) {
+      const findItem = state.items.find(
+        (item) => item.id === action.payload.id && item.price === action.payload.price
+      );
       if (findItem) {
         findItem.count--;
       }
       state.totalPrice = calcCartTotalPrice(state.items);
     },
-    removeItems(state, action: PayloadAction<number>) {
-      state.items = state.items.filter((item) => item.id !== action.payload);
+    removeItems(state, action: PayloadAction<Record<string, number>>) {
+      state.items = state.items.filter(
+        (item) => item.id !== action.payload.id || item.price !== action.payload.price
+      );
       state.totalPrice = calcCartTotalPrice(state.items);
     },
     clearCart(state) {
