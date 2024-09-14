@@ -21,18 +21,18 @@
     <p align="center">
     <a href="#️-demo">View Demo</a>
     ·
-    <a href="https://leagermaxl.github.io/react-pizza/">View web-site</a>
+    <a href="https://leagermaxl.github.io/react-pizza/">Visit site</a>
     ·
     <a href="#-technology-stack">Technology stack</a>
     ·
     <a href="#-ive-learned">What I've learned</a>
   </p>
   <p align="center">
-    <a href="/readme.md">English</a>
+    <a href="/README.md">English</a>
     ·
-    <a href="/docs/readme_ua.md">Українська</a>
+    <a href="/docs/README_ua.md">Українська</a>
     ·
-    <a href="/docs/readme_ru.md">Русский</a>
+    <a href="/docs/README_ru.md">Русский</a>
   </p>
 
 # 🛠 Technology stack:
@@ -65,3 +65,5 @@
 - Deploy the application to the Internet.
 
 ## 🖼️ Demo:
+
+![2024-09-12 14-40-25](https://github.com/user-attachments/assets/05756060-f73f-40ac-aef1-19b2d3ff2415)
