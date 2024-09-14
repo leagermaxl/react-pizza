@@ -28,7 +28,7 @@
     <a href="#-я-научился">Что я научился</a>
   </p>
   <p align="center">
-    <a href="/readme.md">English</a>
+    <a href="/README.md">English</a>
     ·
     <a href="/docs/README_ua.md">Українська</a>
     ·
