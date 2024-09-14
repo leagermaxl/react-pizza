@@ -30,9 +30,9 @@
   <p align="center">
     <a href="/readme.md">English</a>
     ·
-    <a href="/docs/readme_ua.md">Українська</a>
+    <a href="/docs/README_ua.md">Українська</a>
     ·
-    <a href="/docs/readme_ru.md">Русский</a>
+    <a href="/docs/README_ru.md">Русский</a>
   </p>
 
 # 🛠 Стек технологий:
